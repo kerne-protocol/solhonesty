@@ -1,0 +1,90 @@
+{
+  "$comment": "Every product on this board must name a public surface where its issuer states a yield figure, and a way to measure what the product actually paid. A product with no readable advertised figure is still listed, with that fact as its finding.",
+  "windowDays": 30,
+  "products": [
+    {
+      "key": "kamino-lend-usdc",
+      "protocol": "Kamino",
+      "product": "Kamino Lend USDC (Main market)",
+      "symbol": "USDC",
+      "chain": "solana",
+      "adapter": "kamino-lend",
+      "marketPubkey": "7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF",
+      "reservePubkey": "D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59",
+      "advertisedSurface": "https://app.kamino.finance/lending",
+      "llamaPoolId": "d2141a59-c199-4be7-8d4b-c8223954836b"
+    },
+    {
+      "key": "kamino-lend-usdg",
+      "protocol": "Kamino",
+      "product": "Kamino Lend USDG (Main market)",
+      "symbol": "USDG",
+      "chain": "solana",
+      "adapter": "kamino-lend",
+      "marketPubkey": "7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF",
+      "reservePubkey": "ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp",
+      "advertisedSurface": "https://app.kamino.finance/lending",
+      "llamaPoolId": "0cdd7f84-711e-4cd4-916d-da318857559a"
+    },
+    {
+      "key": "kamino-lend-pyusd",
+      "protocol": "Kamino",
+      "product": "Kamino Lend PYUSD (Main market)",
+      "symbol": "PYUSD",
+      "chain": "solana",
+      "adapter": "kamino-lend",
+      "marketPubkey": "7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF",
+      "reservePubkey": "2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN",
+      "advertisedSurface": "https://app.kamino.finance/lending",
+      "llamaPoolId": null
+    },
+    {
+      "key": "kamino-lend-usdt",
+      "protocol": "Kamino",
+      "product": "Kamino Lend USDT (Main market)",
+      "symbol": "USDT",
+      "chain": "solana",
+      "adapter": "kamino-lend",
+      "marketPubkey": "7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF",
+      "reservePubkey": "H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S",
+      "advertisedSurface": "https://app.kamino.finance/lending",
+      "llamaPoolId": null
+    },
+    {
+      "key": "kamino-lend-usds",
+      "protocol": "Kamino",
+      "product": "Kamino Lend USDS (Main market)",
+      "symbol": "USDS",
+      "chain": "solana",
+      "adapter": "kamino-lend",
+      "marketPubkey": "7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF",
+      "reservePubkey": "BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA",
+      "advertisedSurface": "https://app.kamino.finance/lending",
+      "llamaPoolId": null
+    },
+    {
+      "key": "save-usdc",
+      "protocol": "Save",
+      "product": "Save USDC (Main pool)",
+      "symbol": "USDC",
+      "chain": "solana",
+      "adapter": "save-reserve",
+      "reservePubkey": "BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw",
+      "collateralMint": "993dVFL2uXWYeoXuEBFXR4BijeXdTv4s6BzsCjJZuwqk",
+      "advertisedSurface": "https://save.finance/dashboard",
+      "llamaPoolId": "dde4c16c-504d-470b-9404-006287ce0906"
+    },
+    {
+      "key": "save-usdt",
+      "protocol": "Save",
+      "product": "Save USDT (Main pool)",
+      "symbol": "USDT",
+      "chain": "solana",
+      "adapter": "save-reserve",
+      "reservePubkey": "8K9WC8xoh2rtQNY7iEGXtPvfbDCi563SdWhCAhuMP2xE",
+      "collateralMint": "BTsbZDV7aCMRJ3VNy9ygV4Q2UeEo9GpR8D6VvmMZzNr8",
+      "advertisedSurface": "https://save.finance/dashboard",
+      "llamaPoolId": "7ec9f4ba-803c-4935-97e2-342aa75b4ff4"
+    }
+  ]
+}

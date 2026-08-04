@@ -1,0 +1,20 @@
+{
+  "name": "solhonesty",
+  "version": "0.1.0",
+  "description": "Advertised versus realized yield for Solana stablecoin products, with a comparability gate. Zero runtime dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "solhonesty": "./bin/solhonesty.mjs"
+  },
+  "scripts": {
+    "build": "node bin/solhonesty.mjs build --out out",
+    "test": "node --test \"test/*.test.mjs\"",
+    "test:live": "SOLHONESTY_LIVE=1 node --test \"test/*.test.mjs\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,42 @@
+name: refresh
+
+# Rebuilds the board daily and commits the outputs, so the dataset refreshes
+# itself with no server to run and no secret to hold. The offset from the hour
+# is deliberate: the collector should not land on the same minute as everyone
+# else's cron against the same public endpoints.
+
+on:
+  schedule:
+    - cron: '52 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Test offline
+        run: npm test
+
+      - name: Build the board
+        run: node bin/solhonesty.mjs build --out out
+
+      - name: Commit if anything moved
+        run: |
+          git config user.name  "solhonesty-bot"
+          git config user.email "solhonesty-bot@users.noreply.github.com"
+          git add out/
+          if git diff --staged --quiet; then
+            echo "no change"
+          else
+            git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi
