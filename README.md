@@ -144,9 +144,10 @@ is that I find it and stop, and I would rather be told than not.
 
 ## Licence
 
-Code: MIT. Data produced by it: CC BY 4.0, except `advertised_verbatim`, which
-is short factual quotation from each issuer's own public surface, attributed and
-dated. Protocol names are used nominatively to identify the products measured.
+Code: MIT, in full at [`LICENSE`](LICENSE). Data produced by it: CC BY 4.0,
+except `advertised_verbatim`, which is short factual quotation from each
+issuer's own public surface, attributed and dated. Protocol names are used
+nominatively to identify the products measured.
 
 ## Status
 
