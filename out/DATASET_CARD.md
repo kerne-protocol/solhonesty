@@ -16,21 +16,54 @@ pretty_name: Solana Honesty Index
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-04T15:43:22.555Z. Window 30 days.
+Snapshot generated 2026-08-09T01:51:36.982Z. Window 30 days.
 7 products tracked, 7 comparable,
 0 published but not comparable. Realized figures: 5 by issuer_share_price_history, 2 by thirdparty_rate_series.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 4.2792 | 4.0744 | 0.2047 | 95.22 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 2.4567 | 3.4307 | -0.974 | 139.65 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 6.9214 | 4.6032 | 2.3182 | 66.51 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 4.1217 | 3.7641 | 0.3576 | 91.32 | issuer_share_price_history |
-| Kamino Lend USDS (Main market) | 3.9964 | 4.2846 | -0.2881 | 107.21 | issuer_share_price_history |
-| Save USDC (Main pool) | 2.24 | 2.3182 | -0.0782 | 103.49 | thirdparty_rate_series |
-| Save USDT (Main pool) | 1.42 | 1.3651 | 0.0549 | 96.13 | thirdparty_rate_series |
+| Kamino Lend USDC (Main market) | 3.9611 | 4.1065 | -0.1454 | 103.67 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 2.4815 | 2.912 | -0.4306 | 117.35 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 4.7135 | 4.7082 | 0.0053 | 99.89 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 2.6766 | 3.645 | -0.9684 | 136.18 | issuer_share_price_history |
+| Kamino Lend USDS (Main market) | 3.9426 | 4.3002 | -0.3576 | 109.07 | issuer_share_price_history |
+| Save USDC (Main pool) | 2.53 | 2.3619 | 0.1681 | 93.35 | thirdparty_rate_series |
+| Save USDT (Main pool) | 1.42 | 1.3901 | 0.0299 | 97.89 | thirdparty_rate_series |
 
-The widest gap in this snapshot belongs to kamino-lend-pyusd, at 2.32 percent.
+The widest gap in this snapshot belongs to save-usdc, at 0.17 percent.
+
+## Read the gap column with this next to it
+
+A lending reserve's advertised supply APY is an **instantaneous** rate set by
+utilisation, not a forecast and not a trailing average. On a reserve sitting near
+a kink in its own rate curve, that number moves by multiples within a single day
+while the realized 30 day figure moves by hundredths of a point. Subtracting a
+30 day realized figure from one spot reading therefore measures **when the
+collector ran** at least as much as it measures the product.
+
+This is not hypothetical and it is not somebody else's mistake. This project
+reported a 2.32 point gap on Kamino's PYUSD reserve on 2026-08-04 and a gap of
+the opposite sign on the same reserve three days later, and very nearly published
+the first one as a finding. So every row that can support it now carries the
+distribution its spot reading was drawn from:
+
+| product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Kamino Lend USDC (Main market) | 3.9611 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 53.8 | -0.2529 |
+| Kamino Lend USDG (Main market) | 2.4815 | 1.8958 | 2.4853 | 11.7439 | 6.19x | 48.4 | -0.4267 |
+| Kamino Lend PYUSD (Main market) | 4.7135 | 1.3223 | 4.004 | 24.3431 | 18.41x | 72.1 | -0.7042 |
+| Kamino Lend USDT (Main market) | 2.6766 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 7.4 | 0.1243 |
+| Kamino Lend USDS (Main market) | 3.9426 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 9 | -0.0217 |
+| Save USDC (Main pool) | 2.53 | not published | not published | not published | n/a | n/a | n/a |
+| Save USDT (Main pool) | 1.42 | not published | not published | not published | n/a | n/a | n/a |
+
+Widest range in this snapshot: kamino-lend-pyusd, whose advertised figure ran from 1.32 percent to 24.34 percent over the window, a factor of 18.41.
+
+**2 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdt, kamino-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
+
+`gap_vs_median_pct` is the same subtraction done against the median of the
+advertised figure's own published history rather than against one reading of it.
+Where both exist, it is the more honest number, and it is the one to quote.
 
 ## How realized is measured
 
@@ -80,6 +113,12 @@ Every row in this snapshot was comparable.
 | advertised_basis | what question the advertised figure answers |
 | realized_method | how the realized figure was obtained, weakest to strongest above |
 | advertised_verbatim | the issuer's own words or payload, quoted and dated |
+| advertised_min_pct, advertised_max_pct | the range the advertised figure covered over the same window, from the issuer's own published history |
+| advertised_median_pct | the median of that history. Against a volatile spot rate this is the figure a holder is more likely to have lived through |
+| advertised_spread_ratio | max divided by min. A value near 1 means the advertised figure is stable and the spot gap is trustworthy; a large value means it is not |
+| spot_percentile | where the reading in advertised_pct sat inside that history, 0 to 100 |
+| spot_is_representative | true when the reading fell inside the middle half of its own range |
+| gap_vs_median_pct | advertised median minus realized. Prefer this to gap_pct wherever it is present |
 
 ## Licence and scope
 

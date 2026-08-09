@@ -9,24 +9,64 @@ API key, no wallet. From a clean clone:
 node bin/solhonesty.mjs build
 ```
 
-Live output, 2026-08-04, seven products, thirty day window:
+Live output, 2026-08-08, seven products, thirty day window:
 
 ```
-OK  kamino-lend-usdc     advertised   4.2792%  realized   4.0744%  gap   +0.2047  issuer_share_price_history
-OK  kamino-lend-usdg     advertised   2.4567%  realized   3.4307%  gap   -0.9740  issuer_share_price_history
-OK  kamino-lend-pyusd    advertised   6.9214%  realized   4.6032%  gap   +2.3182  issuer_share_price_history
-OK  kamino-lend-usdt     advertised   4.1217%  realized   3.7641%  gap   +0.3576  issuer_share_price_history
-OK  kamino-lend-usds     advertised   3.9964%  realized   4.2846%  gap   -0.2881  issuer_share_price_history
-OK  save-usdc            advertised   2.2400%  realized   2.3182%  gap   -0.0782  thirdparty_rate_series
-OK  save-usdt            advertised   1.4200%  realized   1.3651%  gap   +0.0549  thirdparty_rate_series
+OK  kamino-lend-usdc     advertised   3.9611%  realized   4.1065%  gap   -0.1454  issuer_share_price_history
+OK  kamino-lend-usdg     advertised   2.4815%  realized   2.9120%  gap   -0.4306  issuer_share_price_history
+OK  kamino-lend-pyusd    advertised   4.7135%  realized   4.7082%  gap   +0.0053  issuer_share_price_history
+OK  kamino-lend-usdt     advertised   2.6766%  realized   3.6450%  gap   -0.9684  issuer_share_price_history
+OK  kamino-lend-usds     advertised   3.9426%  realized   4.3002%  gap   -0.3576  issuer_share_price_history
+OK  save-usdc            advertised   2.5300%  realized   2.3619%  gap   +0.1681  thirdparty_rate_series
+OK  save-usdt            advertised   1.4200%  realized   1.3901%  gap   +0.0299  thirdparty_rate_series
 ```
 
-Read the widest one out loud: Kamino's PYUSD reserve advertises 6.92 percent and
-its own published share price grew at 4.60 percent over the last thirty days.
-That is a 2.32 point gap and a 66.5 percent delivery ratio, and it is not an
-accusation. It is what happens when a reserve's utilisation moves and the rate
-on the page is the rate right now rather than the rate you lived through. The
-point of this project is that nobody currently has to say which one they meant.
+## The finding, which is not the one this project expected
+
+An earlier version of this README led with the widest row of that day: Kamino's
+PYUSD reserve advertising 6.92 percent against 4.60 percent realized, a 2.32
+point gap. Presenting that as a finding about Kamino would have been wrong, and
+working out why is the most useful thing this project has produced.
+
+Three days later the same code on the same reserve read 3.25 advertised against
+4.76 realized. The gap had not narrowed. It had **changed sign**. On 2026-08-08 a
+single read caught the USDC reserve advertising 18.19 percent, and a read a few
+minutes later returned 3.91.
+
+Nothing was broken. A lending reserve's supply APY is an *instantaneous* rate set
+by utilisation, and Kamino's rate curve has a steep kink above 95 percent
+utilisation, where the borrow rate runs from 4.61 to 30.4 percent. A reserve
+oscillating in the high eighties therefore prints an advertised number whose
+thirty day range spans a factor of 7 to 18, while the realized figure over the
+same period moves by hundredths of a point.
+
+So **a spot reading minus a thirty day realized figure does not measure the
+product. It measures when the collector ran.** Any advertised-versus-realized
+board that samples a spot rate once has this problem, including this one, and it
+is invisible unless you look at the distribution the reading came from.
+
+The board now publishes that distribution:
+
+| product | advertised now | min | median | max | range | spot pct'ile | gap vs median |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Kamino USDC | 3.9611 | 3.2082 | 3.8536 | 24.3491 | 7.6x | 54 | -0.2529 |
+| Kamino USDG | 2.4815 | 1.8958 | 2.4853 | 11.7439 | 6.2x | 48 | -0.4267 |
+| Kamino PYUSD | 4.7135 | 1.3223 | 4.0040 | 24.3431 | 18.4x | 72 | -0.7042 |
+| Kamino USDT | 2.6766 | 2.2113 | 3.7693 | 4.2655 | 1.9x | 7 | +0.1243 |
+| Kamino USDS | 3.9426 | 3.3428 | 4.2785 | 4.7902 | 1.4x | 9 | -0.0217 |
+| Save USDC | 2.5300 | not published | | | | | |
+| Save USDT | 1.4200 | not published | | | | | |
+
+Measured against the median of its own published history rather than against one
+screenshot of it, **Kamino delivers what it advertises on all five reserves,
+within 0.71 points, and over-delivers on four of them.** That is the honest
+headline and it is duller than the first draft. Two rows in this snapshot were
+captured at the 7th and 9th percentile of their own range, so `gap_vs_median_pct`
+is the column to quote for those, and the board says so itself rather than
+leaving the reader to notice.
+
+Save publishes a current rate but no history of it, so those two rows carry the
+absence rather than a borrowed substitute.
 
 ## Why this does not already exist
 
@@ -52,6 +92,7 @@ data, and that is why the column is empty everywhere.
 src/rpc.mjs                  Solana JSON-RPC, endpoint rotation, no key
 src/base58.mjs               base58 both directions, no dependency
 src/basis.mjs                the comparability gate
+src/advertisedSeries.mjs     how much the ADVERTISED figure itself moves
 src/realized.mjs             share price to annualized yield
 src/adapters/saveReserve.mjs raw 619 byte reserve decode, share price from chain
 src/adapters/kaminoLend.mjs  issuer share price history, advertised supply APY
@@ -60,7 +101,7 @@ src/engine.mjs               registry in, board out
 src/publish.mjs              current.csv, index.json, generated dataset card
 ```
 
-42 tests, 37 of which run with no network at all.
+52 tests, 47 of which run with no network at all.
 
 ```
 npm test                  offline, deterministic

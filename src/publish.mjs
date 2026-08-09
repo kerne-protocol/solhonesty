@@ -19,6 +19,17 @@ const CSV_COLUMNS = [
   'realized_pct',
   'gap_pct',
   'delivered_pct',
+  'advertised_min_pct',
+  'advertised_p25_pct',
+  'advertised_median_pct',
+  'advertised_p75_pct',
+  'advertised_max_pct',
+  'advertised_spread_ratio',
+  'advertised_history_observations',
+  'spot_percentile',
+  'spot_is_representative',
+  'gap_vs_median_pct',
+  'delivered_vs_median_pct',
   'advertised_basis',
   'realized_method',
   'window_days',
@@ -68,6 +79,23 @@ export function datasetCard(board) {
     ? `The widest gap in this snapshot belongs to ${s.widest_gap.key}, at ${pct(s.widest_gap.gap_pct)}.`
     : 'No row in this snapshot produced a comparable gap.';
 
+  const stab = s.advertised_stability ?? {};
+  const spreadTable = [
+    '| product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |',
+    '| --- | --- | --- | --- | --- | --- | --- | --- |',
+    ...board.rows.map((r) =>
+      r.advertised_history_ok
+        ? `| ${r.product} | ${r.advertised_pct ?? 'n/a'} | ${r.advertised_min_pct} | ${r.advertised_median_pct} | ${r.advertised_max_pct} | ${r.advertised_spread_ratio}x | ${r.spot_percentile} | ${r.gap_vs_median_pct ?? 'n/a'} |`
+        : `| ${r.product} | ${r.advertised_pct ?? 'n/a'} | not published | not published | not published | n/a | n/a | n/a |`,
+    ),
+  ].join('\n');
+
+  const stabilityLine = stab.widest_spread
+    ? `Widest range in this snapshot: ${stab.widest_spread.key}, whose advertised figure ran from ${pct(
+        stab.widest_spread.min_pct,
+      )} to ${pct(stab.widest_spread.max_pct)} over the window, a factor of ${stab.widest_spread.ratio}.`
+    : 'No row in this snapshot carried a readable advertised history.';
+
   return `---
 license: cc-by-4.0
 language:
@@ -93,6 +121,34 @@ ${s.rows_not_comparable} published but not comparable. Realized figures: ${metho
 ${table}
 
 ${widest}
+
+## Read the gap column with this next to it
+
+A lending reserve's advertised supply APY is an **instantaneous** rate set by
+utilisation, not a forecast and not a trailing average. On a reserve sitting near
+a kink in its own rate curve, that number moves by multiples within a single day
+while the realized 30 day figure moves by hundredths of a point. Subtracting a
+30 day realized figure from one spot reading therefore measures **when the
+collector ran** at least as much as it measures the product.
+
+This is not hypothetical and it is not somebody else's mistake. This project
+reported a 2.32 point gap on Kamino's PYUSD reserve on 2026-08-04 and a gap of
+the opposite sign on the same reserve three days later, and very nearly published
+the first one as a finding. So every row that can support it now carries the
+distribution its spot reading was drawn from:
+
+${spreadTable}
+
+${stabilityLine}
+${
+  (stab.rows_whose_spot_reading_is_unrepresentative ?? 0) > 0
+    ? `\n**${stab.rows_whose_spot_reading_is_unrepresentative} row(s) in this snapshot were captured outside the middle half of their own recent range** (${(stab.unrepresentative_keys ?? []).join(', ')}). For those rows, prefer \`gap_vs_median_pct\` over \`gap_pct\`.`
+    : '\nEvery row with a readable history was captured inside the middle half of its own recent range, so the spot gaps in this snapshot are fair samples.'
+}
+
+\`gap_vs_median_pct\` is the same subtraction done against the median of the
+advertised figure's own published history rather than against one reading of it.
+Where both exist, it is the more honest number, and it is the one to quote.
 
 ## How realized is measured
 
@@ -148,6 +204,12 @@ ${
 | advertised_basis | what question the advertised figure answers |
 | realized_method | how the realized figure was obtained, weakest to strongest above |
 | advertised_verbatim | the issuer's own words or payload, quoted and dated |
+| advertised_min_pct, advertised_max_pct | the range the advertised figure covered over the same window, from the issuer's own published history |
+| advertised_median_pct | the median of that history. Against a volatile spot rate this is the figure a holder is more likely to have lived through |
+| advertised_spread_ratio | max divided by min. A value near 1 means the advertised figure is stable and the spot gap is trustworthy; a large value means it is not |
+| spot_percentile | where the reading in advertised_pct sat inside that history, 0 to 100 |
+| spot_is_representative | true when the reading fell inside the middle half of its own range |
+| gap_vs_median_pct | advertised median minus realized. Prefer this to gap_pct wherever it is present |
 
 ## Licence and scope
 

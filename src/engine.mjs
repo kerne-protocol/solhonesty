@@ -10,6 +10,7 @@ import path from 'node:path';
 import { SolanaRpc } from './rpc.mjs';
 import { assessRow, round } from './basis.mjs';
 import { realizedFromSeries } from './realized.mjs';
+import { summarizeAdvertisedSeries, locateSpot } from './advertisedSeries.mjs';
 import * as kamino from './adapters/kaminoLend.mjs';
 import * as save from './adapters/saveReserve.mjs';
 import { fetchRateSeries } from './adapters/llamaSeries.mjs';
@@ -62,12 +63,31 @@ async function buildKaminoRow(product, windowDays, cache) {
     reservePubkey: product.reservePubkey,
     cache,
   });
-  const realized = await kamino.fetchRealized({
+  const prefetched = await kamino.fetchHistory({
     marketPubkey: product.marketPubkey,
     reservePubkey: product.reservePubkey,
     windowDays,
   });
-  return { advertisedFigures: adv.figures, realized, context: adv.context ?? null, note: adv.note ?? null, observation: null };
+  const realized = await kamino.fetchRealized({
+    marketPubkey: product.marketPubkey,
+    reservePubkey: product.reservePubkey,
+    windowDays,
+    prefetched,
+  });
+  const advPoints = kamino.advertisedSeriesFromHistory(prefetched.history);
+  const advertisedHistory = summarizeAdvertisedSeries(advPoints, {
+    source: prefetched.url,
+    field: 'metrics.supplyInterestAPY',
+  });
+  return {
+    advertisedFigures: adv.figures,
+    realized,
+    advertisedHistory,
+    advertisedPoints: advPoints,
+    context: adv.context ?? null,
+    note: adv.note ?? null,
+    observation: null,
+  };
 }
 
 async function buildSaveRow(product, windowDays, rpc, ownObservations) {
@@ -117,6 +137,18 @@ async function buildSaveRow(product, windowDays, rpc, ownObservations) {
   return {
     advertisedFigures: adv.figures,
     realized,
+    // Save publishes a rate but no history of it, so the volatility of its
+    // advertised figure cannot be described from the issuer's own surface. That
+    // is recorded as an absence rather than filled in from a third party, which
+    // would mix a Save claim with somebody else's observation of it.
+    advertisedHistory: {
+      ok: false,
+      reason: 'Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface',
+      observations: 0,
+      source: null,
+      field: null,
+    },
+    advertisedPoints: [],
     context: {
       onChainPricePerShare: onChain?.pricePerShare ?? null,
       issuerReportedExchangeRate: adv.issuerReportedExchangeRate ?? null,
@@ -178,6 +210,20 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
     const verdict = assessRow({ advertisedFigures: built.advertisedFigures, realized: built.realized });
     const chosen = built.advertisedFigures?.find((f) => f.pct === verdict.advertisedPct) ?? built.advertisedFigures?.[0] ?? null;
 
+    // Where did the spot reading this row is judged on sit inside its own recent
+    // history, and what would the gap have been against the median of that
+    // history instead? See advertisedSeries.mjs for why this column exists.
+    const advHist = built.advertisedHistory ?? { ok: false, reason: 'no advertised history was collected for this adapter' };
+    const spot = locateSpot(verdict.advertisedPct, advHist, built.advertisedPoints);
+    const medianGap =
+      advHist.ok && Number.isFinite(verdict.realizedPct)
+        ? round(advHist.medianPct - verdict.realizedPct, 4)
+        : null;
+    const medianDelivered =
+      advHist.ok && Number.isFinite(verdict.realizedPct) && advHist.medianPct > 0
+        ? round((verdict.realizedPct / advHist.medianPct) * 100, 2)
+        : null;
+
     rows.push({
       key: product.key,
       protocol: product.protocol,
@@ -200,6 +246,24 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
       window_days: built.realized?.windowDays ? round(built.realized.windowDays, 4) : null,
       price_per_share_from: built.realized?.ppsFrom ?? null,
       price_per_share_to: built.realized?.ppsTo ?? null,
+      // The advertised figure's own distribution over the same window. A gap
+      // computed from a spot reading outside p25..p75 is telling you about the
+      // clock, not the product.
+      advertised_history_ok: advHist.ok,
+      advertised_history_reason: advHist.ok ? null : advHist.reason,
+      advertised_history_observations: advHist.observations ?? 0,
+      advertised_min_pct: advHist.ok ? round(advHist.minPct, 4) : null,
+      advertised_p25_pct: advHist.ok ? round(advHist.p25Pct, 4) : null,
+      advertised_median_pct: advHist.ok ? round(advHist.medianPct, 4) : null,
+      advertised_p75_pct: advHist.ok ? round(advHist.p75Pct, 4) : null,
+      advertised_max_pct: advHist.ok ? round(advHist.maxPct, 4) : null,
+      advertised_spread_ratio: advHist.ok ? round(advHist.spreadRatio, 2) : null,
+      spot_percentile: spot.ok ? round(spot.percentile, 1) : null,
+      spot_is_representative: spot.ok ? spot.representative : null,
+      spot_caveat: spot.ok ? spot.reason : null,
+      gap_vs_median_pct: medianGap,
+      delivered_vs_median_pct: medianDelivered,
+      advertised_history_source: advHist.source ?? null,
       advertised_basis: chosen?.basis ?? null,
       advertised_source_url: chosen?.sourceUrl ?? null,
       advertised_verbatim: chosen?.verbatim ?? null,
@@ -228,12 +292,32 @@ export function summarize(rows) {
   const byDelivery = [...comparable]
     .filter((r) => Number.isFinite(r.delivered_pct))
     .sort((a, b) => a.delivered_pct - b.delivered_pct);
+  // Stability of the ADVERTISED figure. Reported at the top level because it
+  // governs how much weight any gap on this board can carry.
+  const withHistory = rows.filter((r) => r.advertised_history_ok);
+  const bySpread = [...withHistory].sort((a, b) => (b.advertised_spread_ratio ?? 0) - (a.advertised_spread_ratio ?? 0));
+  const unrepresentative = withHistory.filter((r) => r.spot_is_representative === false);
+
   return {
     products_tracked: rows.length,
     rows_comparable: comparable.length,
     rows_not_comparable: rows.length - comparable.length,
     widest_gap: byGap[0] ? { key: byGap[0].key, gap_pct: byGap[0].gap_pct } : null,
     lowest_delivery: byDelivery[0] ? { key: byDelivery[0].key, delivered_pct: byDelivery[0].delivered_pct } : null,
+    advertised_stability: {
+      rows_with_advertised_history: withHistory.length,
+      rows_without: rows.length - withHistory.length,
+      widest_spread: bySpread[0]
+        ? {
+            key: bySpread[0].key,
+            ratio: bySpread[0].advertised_spread_ratio,
+            min_pct: bySpread[0].advertised_min_pct,
+            max_pct: bySpread[0].advertised_max_pct,
+          }
+        : null,
+      rows_whose_spot_reading_is_unrepresentative: unrepresentative.length,
+      unrepresentative_keys: unrepresentative.map((r) => r.key),
+    },
     realized_methods: rows.reduce((acc, r) => {
       const m = r.realized_method ?? 'none';
       acc[m] = (acc[m] ?? 0) + 1;
