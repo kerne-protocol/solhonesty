@@ -8,11 +8,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { SolanaRpc } from './rpc.mjs';
-import { assessRow, round } from './basis.mjs';
+import { assessRow, pickAdvertised, round } from './basis.mjs';
 import { realizedFromSeries } from './realized.mjs';
 import { summarizeAdvertisedSeries, locateSpot } from './advertisedSeries.mjs';
 import * as kamino from './adapters/kaminoLend.mjs';
 import * as save from './adapters/saveReserve.mjs';
+import * as jupiter from './adapters/jupiterLend.mjs';
 import { fetchRateSeries } from './adapters/llamaSeries.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -49,6 +50,36 @@ export function readObservations(file) {
       }
     })
     .filter(Boolean);
+}
+
+// Some issuers publish a rate but no history of that rate, so the distribution
+// their spot reading came from cannot be described from their own surface. Until
+// this project started recording it, that meant those rows could never carry the
+// one column that tells a reader whether their gap is a fact about the product or
+// a fact about the sampling instant.
+//
+// So every run now also records the advertised figure it read, not just the share
+// price. The series belongs to this repository, it starts the day the collector
+// first ran, it does not backfill, and it says how many observations it has. Once
+// it is long enough to describe a distribution, those rows start carrying one.
+// Until then they carry the absence and say why, which is the same behaviour as
+// before rather than a worse one.
+// This run's advertised reading, appended to every earlier reading of the same
+// product, as the point series the distribution is measured from.
+export function advertisedPoints(ownObservations, key, thisRun) {
+  return (Array.isArray(ownObservations) ? ownObservations : [])
+    .filter((o) => o.key === key && Number.isFinite(o.advertisedPct))
+    .concat(thisRun && Number.isFinite(thisRun.advertisedPct) ? [thisRun] : [])
+    .map((o) => ({ timestampSeconds: o.timestampSeconds, pct: o.advertisedPct }));
+}
+
+export function ownAdvertisedHistory(points, { issuerReason, source }) {
+  const summary = summarizeAdvertisedSeries(points, { source, field: 'advertised figure recorded by this collector, one reading per run' });
+  if (summary.ok) return summary;
+  return {
+    ...summary,
+    reason: `${issuerReason}. This repository has been recording that figure itself since its first run and has ${summary.observations} observation(s), which is not yet enough to describe a distribution`,
+  };
 }
 
 export function appendObservations(file, rows) {
@@ -104,11 +135,14 @@ async function buildSaveRow(product, windowDays, rpc, ownObservations) {
     onChainError = err.message;
   }
 
+  const advertisedNow = pickAdvertised(adv.figures)?.pct ?? null;
+
   const observation = onChain?.pricePerShare
     ? {
         key: product.key,
         timestampSeconds: Math.floor(Date.now() / 1000),
         pricePerShare: onChain.pricePerShare,
+        advertisedPct: advertisedNow,
         slot: onChain.slot === null ? null : String(onChain.slot),
         source: 'onchain:save-reserve',
       }
@@ -134,21 +168,21 @@ async function buildSaveRow(product, windowDays, rpc, ownObservations) {
     }
   }
 
+  // Save publishes a rate but no history of it, so the volatility of its
+  // advertised figure cannot be described from the issuer's own surface. Rather
+  // than borrow a third party's observation of a Save claim, this project records
+  // the claim itself on every run and builds the distribution from that.
+  const ownAdvertised = advertisedPoints(ownObservations, product.key, observation);
+
   return {
     advertisedFigures: adv.figures,
     realized,
-    // Save publishes a rate but no history of it, so the volatility of its
-    // advertised figure cannot be described from the issuer's own surface. That
-    // is recorded as an absence rather than filled in from a third party, which
-    // would mix a Save claim with somebody else's observation of it.
-    advertisedHistory: {
-      ok: false,
-      reason: 'Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface',
-      observations: 0,
-      source: null,
-      field: null,
-    },
-    advertisedPoints: [],
+    advertisedHistory: ownAdvertisedHistory(ownAdvertised, {
+      issuerReason:
+        'Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface',
+      source: adv.sourceUrl ?? null,
+    }),
+    advertisedPoints: ownAdvertised,
     context: {
       onChainPricePerShare: onChain?.pricePerShare ?? null,
       issuerReportedExchangeRate: adv.issuerReportedExchangeRate ?? null,
@@ -159,12 +193,103 @@ async function buildSaveRow(product, windowDays, rpc, ownObservations) {
   };
 }
 
+// Jupiter Lend. The advertised figure is an APR the adapter converts to an APY;
+// the realized figure is a share price this collector samples once per run, whose
+// denominator it verifies against the SPL mint over plain JSON-RPC. See
+// adapters/jupiterLend.mjs for why the conversion is necessary and how the
+// compounding convention was established.
+async function buildJupiterRow(product, windowDays, rpc, ownObservations, tokens) {
+  const token = jupiter.selectToken(tokens, product.jlTokenAddress);
+  const adv = await jupiter.fetchAdvertised(token);
+
+  const pps = jupiter.sharePrice(token);
+  const issuerPps = jupiter.convertToAssetsPrice(token);
+  const tolerance = jupiter.roundingTolerance(token);
+  const ppsAgrees =
+    Number.isFinite(pps) && Number.isFinite(issuerPps) && issuerPps > 0
+      ? Math.abs(pps - issuerPps) / issuerPps <= tolerance
+      : null;
+
+  let supplyCheck = null;
+  try {
+    supplyCheck = await jupiter.verifyShareSupply(rpc, token);
+  } catch (err) {
+    supplyCheck = { ok: false, reason: `the jlToken mint supply could not be read: ${err.message}`, onChain: null };
+  }
+
+  const advertisedNow = pickAdvertised(adv.figures)?.pct ?? null;
+
+  const observation = Number.isFinite(pps)
+    ? {
+        key: product.key,
+        timestampSeconds: Math.floor(Date.now() / 1000),
+        pricePerShare: pps,
+        advertisedPct: advertisedNow,
+        slot: null,
+        source: 'issuer:jupiter-lend-earn-tokens',
+      }
+    : null;
+
+  const mine = ownObservations
+    .filter((o) => o.key === product.key)
+    .concat(observation ? [observation] : [])
+    .map((o) => ({ timestampSeconds: o.timestampSeconds, pricePerShare: o.pricePerShare }));
+
+  let realized = realizedFromSeries(mine, windowDays, {
+    includesRewards: false,
+    method: 'issuer_share_price_observed',
+    source: jupiter.TOKENS_URL,
+  });
+
+  if (!realized.ok && product.llamaPoolId) {
+    const bootstrap = await fetchRateSeries(product.llamaPoolId, windowDays);
+    if (bootstrap.ok) {
+      bootstrap.bootstrapReason = realized.reason;
+      realized = bootstrap;
+    }
+  }
+
+  // Jupiter serves a rate but no history of that rate, so the distribution its
+  // spot reading came from is built here from this project's own readings rather
+  // than borrowed from somebody else's observation of a Jupiter claim.
+  const ownAdvertised = advertisedPoints(ownObservations, product.key, observation);
+
+  return {
+    advertisedFigures: adv.figures,
+    realized,
+    advertisedHistory: ownAdvertisedHistory(ownAdvertised, {
+      issuerReason:
+        'Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface',
+      source: jupiter.TOKENS_URL,
+    }),
+    advertisedPoints: ownAdvertised,
+    context: {
+      sharePrice: pps,
+      issuerReportedSharePrice: issuerPps,
+      sharePriceAgreesWithIssuerRounding: ppsAgrees,
+      totalAssetsRaw: token.totalAssets,
+      totalSupplyRaw: token.totalSupply,
+      shareSupplyOnChain: supplyCheck?.onChain ?? null,
+      shareSupplyOnChainAgrees: supplyCheck?.ok ?? null,
+      shareSupplyRelativeDifference: supplyCheck?.relativeDifference ?? null,
+      supplyRateBps: token.supplyRate,
+      rewardsRateBps: token.rewardsRate,
+      totalRateBps: token.totalRate,
+    },
+    note: supplyCheck?.ok === false ? supplyCheck.reason : adv.note ?? null,
+    observation,
+  };
+}
+
 export async function buildBoard({ registry, rpc = new SolanaRpc(), observationsFile = null } = {}) {
   const windowDays = registry.windowDays ?? 30;
   const own = observationsFile ? readObservations(observationsFile) : [];
 
   // One shared read of Kamino's reserve metrics for every Kamino row.
   const kaminoCache = new Map();
+  // One shared read of Jupiter's earn tokens for every Jupiter row, so all of
+  // them describe the same instant rather than a smear across the run.
+  let jupiterTokens = null;
   const rows = [];
   const newObservations = [];
 
@@ -179,6 +304,9 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
         built = await buildKaminoRow(product, windowDays, kaminoCache.get(product.marketPubkey));
       } else if (product.adapter === 'save-reserve') {
         built = await buildSaveRow(product, windowDays, rpc, own);
+      } else if (product.adapter === 'jupiter-lend') {
+        if (jupiterTokens === null) jupiterTokens = await jupiter.fetchTokens();
+        built = await buildJupiterRow(product, windowDays, rpc, own, jupiterTokens);
       } else {
         throw new Error(`unknown adapter ${product.adapter}`);
       }
@@ -230,7 +358,7 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
       product: product.product,
       symbol: product.symbol,
       chain: product.chain,
-      reserve: product.reservePubkey ?? null,
+      reserve: product.reservePubkey ?? product.jlTokenAddress ?? null,
       comparable: verdict.comparable,
       reason: verdict.reason,
       advertised_pct: verdict.advertisedPct,
@@ -265,6 +393,10 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
       delivered_vs_median_pct: medianDelivered,
       advertised_history_source: advHist.source ?? null,
       advertised_basis: chosen?.basis ?? null,
+      // Empty for every row whose advertised figure is published in the same
+      // units this board compares in. Non empty means this board changed the
+      // issuer's number before comparing it, and says exactly how.
+      advertised_transform: chosen?.transform ?? null,
       advertised_source_url: chosen?.sourceUrl ?? null,
       advertised_verbatim: chosen?.verbatim ?? null,
       advertised_surface: product.advertisedSurface ?? null,
@@ -288,10 +420,26 @@ export async function buildBoard({ registry, rpc = new SolanaRpc(), observations
 
 export function summarize(rows) {
   const comparable = rows.filter((r) => r.comparable && Number.isFinite(r.gap_pct));
-  const byGap = [...comparable].sort((a, b) => b.gap_pct - a.gap_pct);
-  const byDelivery = [...comparable]
-    .filter((r) => Number.isFinite(r.delivered_pct))
-    .sort((a, b) => a.delivered_pct - b.delivered_pct);
+
+  // ⛔ THE HEADLINE MAY ONLY NAME A ROW WHOSE ADVERTISED FIGURE HAS A KNOWN
+  // DISTRIBUTION. A "widest gap" taken from a single spot reading of a figure
+  // that moves by multiples within a day is a statement about when this
+  // collector ran, published under the name of somebody else's protocol. This
+  // project already nearly made that mistake once, about Kamino, and the whole
+  // of advertisedSeries.mjs exists because of it. Ranking by the largest gap in
+  // the table would walk straight back into it through the summary.
+  //
+  // So the ranking is taken over rows that carry a readable history, and it is
+  // taken on gap_vs_median_pct, which compares against the middle of the
+  // advertised figure's own range rather than against one screenshot of it.
+  // Rows without a history are counted and named as unranked, never silently
+  // dropped and never quietly ranked.
+  const rankable = comparable.filter((r) => r.advertised_history_ok && Number.isFinite(r.gap_vs_median_pct));
+  const unranked = comparable.filter((r) => !r.advertised_history_ok || !Number.isFinite(r.gap_vs_median_pct));
+  const byGap = [...rankable].sort((a, b) => b.gap_vs_median_pct - a.gap_vs_median_pct);
+  const byDelivery = [...rankable]
+    .filter((r) => Number.isFinite(r.delivered_vs_median_pct))
+    .sort((a, b) => a.delivered_vs_median_pct - b.delivered_vs_median_pct);
   // Stability of the ADVERTISED figure. Reported at the top level because it
   // governs how much weight any gap on this board can carry.
   const withHistory = rows.filter((r) => r.advertised_history_ok);
@@ -300,10 +448,26 @@ export function summarize(rows) {
 
   return {
     products_tracked: rows.length,
+    protocols_tracked: new Set(rows.map((r) => r.protocol)).size,
     rows_comparable: comparable.length,
     rows_not_comparable: rows.length - comparable.length,
-    widest_gap: byGap[0] ? { key: byGap[0].key, gap_pct: byGap[0].gap_pct } : null,
-    lowest_delivery: byDelivery[0] ? { key: byDelivery[0].key, delivered_pct: byDelivery[0].delivered_pct } : null,
+    // Measured against the median of the advertised figure's own history, not
+    // against one reading of it. Null when no row on the board yet carries a
+    // history long enough to rank honestly, which is a real answer.
+    ranking_basis: 'gap_vs_median_pct',
+    rows_rankable: rankable.length,
+    rows_unrankable: unranked.length,
+    unrankable_keys: unranked.map((r) => r.key),
+    widest_gap: byGap[0]
+      ? { key: byGap[0].key, gap_vs_median_pct: byGap[0].gap_vs_median_pct, gap_pct: byGap[0].gap_pct }
+      : null,
+    lowest_delivery: byDelivery[0]
+      ? {
+          key: byDelivery[0].key,
+          delivered_vs_median_pct: byDelivery[0].delivered_vs_median_pct,
+          delivered_pct: byDelivery[0].delivered_pct,
+        }
+      : null,
     advertised_stability: {
       rows_with_advertised_history: withHistory.length,
       rows_without: rows.length - withHistory.length,

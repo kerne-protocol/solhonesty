@@ -9,6 +9,8 @@ tags:
   - yield
   - transparency
   - kamino
+  - jupiter
+  - save
 pretty_name: Solana Yield Honesty Index
 size_categories:
   - n<1K
@@ -24,21 +26,30 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-09T07:41:35.073Z. Window 30 days.
-7 products tracked, 7 comparable,
-0 published but not comparable. Realized figures: 5 by issuer_share_price_history, 2 by thirdparty_rate_series.
+Snapshot generated 2026-08-09T18:07:43.376Z. Window 30 days.
+13 products across 3 protocols,
+13 comparable, 0 published but not
+comparable. Realized figures: 5 by issuer_share_price_history, 8 by thirdparty_rate_series.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9808 | 4.106 | -0.1252 | 103.15 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 2.4888 | 2.8851 | -0.3963 | 115.92 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 4.9498 | 4.7203 | 0.2295 | 95.36 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 2.6844 | 3.6387 | -0.9543 | 135.55 | issuer_share_price_history |
-| Kamino Lend USDS (Main market) | 3.9425 | 4.2987 | -0.3562 | 109.04 | issuer_share_price_history |
-| Save USDC (Main pool) | 2.53 | 2.3633 | 0.1667 | 93.41 | thirdparty_rate_series |
-| Save USDT (Main pool) | 1.43 | 1.3903 | 0.0397 | 97.23 | thirdparty_rate_series |
+| Kamino Lend USDC (Main market) | 3.9265 | 4.104 | -0.1775 | 104.52 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 2.6039 | 2.8439 | -0.2399 | 109.21 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 4.1198 | 4.7349 | -0.6151 | 114.93 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 2.6934 | 3.6281 | -0.9347 | 134.7 | issuer_share_price_history |
+| Kamino Lend USDS (Main market) | 3.9462 | 4.296 | -0.3498 | 108.86 | issuer_share_price_history |
+| Save USDC (Main pool) | 2.52 | 2.3656 | 0.1544 | 93.87 | thirdparty_rate_series |
+| Save USDT (Main pool) | 1.43 | 1.3908 | 0.0392 | 97.26 | thirdparty_rate_series |
+| Jupiter Lend Earn USDC | 5.1057 | 3.9928 | 1.113 | 78.2 | thirdparty_rate_series |
+| Jupiter Lend Earn JupUSD | 3.8314 | 3.7643 | 0.067 | 98.25 | thirdparty_rate_series |
+| Jupiter Lend Earn USDT | 3.1175 | 3.265 | -0.1475 | 104.73 | thirdparty_rate_series |
+| Jupiter Lend Earn USDS | 3.51 | 3.7208 | -0.2107 | 106 | thirdparty_rate_series |
+| Jupiter Lend Earn USDG | 4.3622 | 4.3648 | -0.0026 | 100.06 | thirdparty_rate_series |
+| Jupiter Lend Earn EURC | 3.0041 | 3.4693 | -0.4652 | 115.49 | thirdparty_rate_series |
 
-The widest gap in this snapshot belongs to kamino-lend-pyusd, at 0.23 percent.
+Widest gap among rows this board can rank: kamino-lend-usdt, at 0.14 percent against the median of its own advertised history.
+
+**8 comparable row(s) are deliberately excluded from that ranking** (save-usdc, save-usdt, jupiter-lend-usdc, jupiter-lend-jupusd, jupiter-lend-usdt, jupiter-lend-usds, jupiter-lend-usdg, jupiter-lend-eurc). Their issuers publish a rate but no history of it, so there is no way yet to tell whether their `gap_pct` describes the product or the minute the collector ran. They are published in full, with their gap, and left unranked. This repository records their advertised figure on every run, so they become rankable from this project's own series rather than from a borrowed one.
 
 ## Read the gap column with this next to it
 
@@ -57,17 +68,23 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9808 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 54.8 | -0.2524 |
-| Kamino Lend USDG (Main market) | 2.4888 | 1.8958 | 2.4842 | 11.7439 | 6.19x | 51.6 | -0.4009 |
-| Kamino Lend PYUSD (Main market) | 4.9498 | 1.3223 | 4.016 | 24.3431 | 18.41x | 79.9 | -0.7043 |
-| Kamino Lend USDT (Main market) | 2.6844 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 8.4 | 0.1306 |
-| Kamino Lend USDS (Main market) | 3.9425 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 8.8 | -0.0202 |
-| Save USDC (Main pool) | 2.53 | not published | not published | not published | n/a | n/a | n/a |
+| Kamino Lend USDC (Main market) | 3.9265 | 3.2082 | 3.8516 | 24.3491 | 7.59x | 52.7 | -0.2524 |
+| Kamino Lend USDG (Main market) | 2.6039 | 1.8958 | 2.4838 | 11.7439 | 6.19x | 67.6 | -0.3601 |
+| Kamino Lend PYUSD (Main market) | 4.1198 | 1.3223 | 4.0433 | 24.3431 | 18.41x | 54.5 | -0.6916 |
+| Kamino Lend USDT (Main market) | 2.6934 | 2.2113 | 3.7694 | 4.2655 | 1.93x | 10.3 | 0.1413 |
+| Kamino Lend USDS (Main market) | 3.9462 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 11.2 | -0.0175 |
+| Save USDC (Main pool) | 2.52 | not published | not published | not published | n/a | n/a | n/a |
 | Save USDT (Main pool) | 1.43 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn USDC | 5.1057 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn JupUSD | 3.8314 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn USDT | 3.1175 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn USDS | 3.51 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn USDG | 4.3622 | not published | not published | not published | n/a | n/a | n/a |
+| Jupiter Lend Earn EURC | 3.0041 | not published | not published | not published | n/a | n/a | n/a |
 
 Widest range in this snapshot: kamino-lend-pyusd, whose advertised figure ran from 1.32 percent to 24.34 percent over the window, a factor of 18.41.
 
-**3 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-pyusd, kamino-lend-usdt, kamino-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
+**2 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdt, kamino-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
 
 `gap_vs_median_pct` is the same subtraction done against the median of the
 advertised figure's own published history rather than against one reading of it.
@@ -91,9 +108,26 @@ three values are not equally strong:
 - `onchain_share_price` reads the protocol's own account data over plain
   JSON-RPC and derives the share price ourselves.
 - `issuer_share_price_history` uses a share price series the issuer publishes.
+- `issuer_share_price_observed` is a share price this collector samples once per
+  run and accumulates itself. The issuer reports the assets; the share count is
+  the SPL mint supply, which this project reads on chain and holds against the
+  reported figure on every run. Half independently verified, half not.
 - `thirdparty_rate_series` is the weakest, a time weighted mean of a third
   party's daily rate observations, used only where no share price series exists
   yet. A row on this method has not been independently measured, and it says so.
+
+## Where a figure was converted rather than quoted
+
+Not every issuer publishes in the units this board compares in. Jupiter quotes
+`supplyRate` as a **simple** annual rate; the realized figure here is a
+**compounded** annualization of a share price. Placing the two side by side
+untouched would manufacture a gap out of pure arithmetic, so the advertised
+figure is converted to its daily compounded equivalent before comparison.
+
+Any row where that happened says so in `advertised_transform`, and
+`advertised_verbatim` still carries the issuer's raw payload so the conversion
+can be checked or rejected. An empty `advertised_transform` means the number in
+`advertised_pct` is the issuer's own, unaltered.
 
 ## The comparability gate
 
@@ -119,6 +153,7 @@ Every row in this snapshot was comparable.
 | gap_pct | advertised minus realized, in percentage points |
 | delivered_pct | realized as a percentage of advertised |
 | advertised_basis | what question the advertised figure answers |
+| advertised_transform | empty when advertised_pct is the issuer's own number. Otherwise, the conversion this board applied to make it answer the same question as the realized figure |
 | realized_method | how the realized figure was obtained, weakest to strongest above |
 | advertised_verbatim | the issuer's own words or payload, quoted and dated |
 | advertised_min_pct, advertised_max_pct | the range the advertised figure covered over the same window, from the issuer's own published history |
@@ -127,6 +162,27 @@ Every row in this snapshot was comparable.
 | spot_percentile | where the reading in advertised_pct sat inside that history, 0 to 100 |
 | spot_is_representative | true when the reading fell inside the middle half of its own range |
 | gap_vs_median_pct | advertised median minus realized. Prefer this to gap_pct wherever it is present |
+
+## Why the publisher is not on this board
+
+This dataset is built by Kerne, and there is no Kerne row on it. That is the
+first thing a reader should be suspicious of, so here is the reason and the
+place to check it rather than an omission left to be noticed.
+
+This board measures **Solana** products. Kerne's products are on Base. There is
+no Kerne row to add here that would not be invented, and inventing one to look
+even handed would be the same failure this dataset exists to measure.
+
+Kerne does publish itself, by the same method, on the EVM board at
+[huggingface.co/datasets/kerne-protocol/honesty-index](https://huggingface.co/datasets/kerne-protocol/honesty-index),
+where its own row is flagged `is_kerne` and is measured by the same share price
+arithmetic as every other protocol on it. It does not come out of that well.
+Read the row rather than this paragraph: it refreshes daily and this paragraph
+does not, and a number typed here would be a false claim the moment it moved.
+
+If Kerne ever ships a Solana product it goes on this board, measured by this
+code, with no exemption. Until then, absence here is a scope boundary and not a
+favour.
 
 ## Licence and scope
 
@@ -139,7 +195,7 @@ names and marks are used nominatively to identify the products measured.
 
 ## Limitations, stated rather than buried
 
-- 7 of 7 rows in this snapshot carry a comparable pair. The rest are published with their reason.
+- 13 of 13 rows in this snapshot carry a comparable pair. The rest are published with their reason.
 - Rows on `thirdparty_rate_series` depend on a third party and are labelled as such.
 - The independently collected share price series in this repository starts on the
   day this collector first ran. It does not backfill, and a row will say

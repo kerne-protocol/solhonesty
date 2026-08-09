@@ -31,6 +31,7 @@ const CSV_COLUMNS = [
   'gap_vs_median_pct',
   'delivered_vs_median_pct',
   'advertised_basis',
+  'advertised_transform',
   'realized_method',
   'window_days',
   'realized_from',
@@ -75,9 +76,20 @@ export function datasetCard(board) {
     ),
   ].join('\n');
 
+  // ⛔ Only rows with a readable advertised history are eligible to be named
+  // here, and they are ranked on gap_vs_median_pct. See summarize() in
+  // engine.mjs for why naming a protocol off a single spot reading is the one
+  // thing this dataset must never do.
   const widest = s.widest_gap
-    ? `The widest gap in this snapshot belongs to ${s.widest_gap.key}, at ${pct(s.widest_gap.gap_pct)}.`
-    : 'No row in this snapshot produced a comparable gap.';
+    ? `Widest gap among rows this board can rank: ${s.widest_gap.key}, at ${pct(
+        s.widest_gap.gap_vs_median_pct,
+      )} against the median of its own advertised history.`
+    : 'No row in this snapshot carries an advertised history long enough to be ranked, so this snapshot names no widest gap. That is the honest answer rather than a ranking of whichever row happened to be sampled at an extreme.';
+
+  const unrankedNote =
+    (s.rows_unrankable ?? 0) > 0
+      ? `\n**${s.rows_unrankable} comparable row(s) are deliberately excluded from that ranking** (${(s.unrankable_keys ?? []).join(', ')}). Their issuers publish a rate but no history of it, so there is no way yet to tell whether their \`gap_pct\` describes the product or the minute the collector ran. They are published in full, with their gap, and left unranked. This repository records their advertised figure on every run, so they become rankable from this project's own series rather than from a borrowed one.`
+      : '';
 
   const stab = s.advertised_stability ?? {};
   const spreadTable = [
@@ -111,6 +123,8 @@ tags:
   - yield
   - transparency
   - kamino
+  - jupiter
+  - save
 pretty_name: Solana Yield Honesty Index
 size_categories:
   - n<1K
@@ -127,12 +141,14 @@ What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
 Snapshot generated ${board.generated_at}. Window ${board.window_days} days.
-${board.rows.length} products tracked, ${s.rows_comparable} comparable,
-${s.rows_not_comparable} published but not comparable. Realized figures: ${methods}.
+${board.rows.length} products across ${s.protocols_tracked ?? 'several'} protocols,
+${s.rows_comparable} comparable, ${s.rows_not_comparable} published but not
+comparable. Realized figures: ${methods}.
 
 ${table}
 
 ${widest}
+${unrankedNote}
 
 ## Read the gap column with this next to it
 
@@ -180,9 +196,26 @@ three values are not equally strong:
 - \`onchain_share_price\` reads the protocol's own account data over plain
   JSON-RPC and derives the share price ourselves.
 - \`issuer_share_price_history\` uses a share price series the issuer publishes.
+- \`issuer_share_price_observed\` is a share price this collector samples once per
+  run and accumulates itself. The issuer reports the assets; the share count is
+  the SPL mint supply, which this project reads on chain and holds against the
+  reported figure on every run. Half independently verified, half not.
 - \`thirdparty_rate_series\` is the weakest, a time weighted mean of a third
   party's daily rate observations, used only where no share price series exists
   yet. A row on this method has not been independently measured, and it says so.
+
+## Where a figure was converted rather than quoted
+
+Not every issuer publishes in the units this board compares in. Jupiter quotes
+\`supplyRate\` as a **simple** annual rate; the realized figure here is a
+**compounded** annualization of a share price. Placing the two side by side
+untouched would manufacture a gap out of pure arithmetic, so the advertised
+figure is converted to its daily compounded equivalent before comparison.
+
+Any row where that happened says so in \`advertised_transform\`, and
+\`advertised_verbatim\` still carries the issuer's raw payload so the conversion
+can be checked or rejected. An empty \`advertised_transform\` means the number in
+\`advertised_pct\` is the issuer's own, unaltered.
 
 ## The comparability gate
 
@@ -214,6 +247,7 @@ ${
 | gap_pct | advertised minus realized, in percentage points |
 | delivered_pct | realized as a percentage of advertised |
 | advertised_basis | what question the advertised figure answers |
+| advertised_transform | empty when advertised_pct is the issuer's own number. Otherwise, the conversion this board applied to make it answer the same question as the realized figure |
 | realized_method | how the realized figure was obtained, weakest to strongest above |
 | advertised_verbatim | the issuer's own words or payload, quoted and dated |
 | advertised_min_pct, advertised_max_pct | the range the advertised figure covered over the same window, from the issuer's own published history |
@@ -222,6 +256,27 @@ ${
 | spot_percentile | where the reading in advertised_pct sat inside that history, 0 to 100 |
 | spot_is_representative | true when the reading fell inside the middle half of its own range |
 | gap_vs_median_pct | advertised median minus realized. Prefer this to gap_pct wherever it is present |
+
+## Why the publisher is not on this board
+
+This dataset is built by Kerne, and there is no Kerne row on it. That is the
+first thing a reader should be suspicious of, so here is the reason and the
+place to check it rather than an omission left to be noticed.
+
+This board measures **Solana** products. Kerne's products are on Base. There is
+no Kerne row to add here that would not be invented, and inventing one to look
+even handed would be the same failure this dataset exists to measure.
+
+Kerne does publish itself, by the same method, on the EVM board at
+[huggingface.co/datasets/kerne-protocol/honesty-index](https://huggingface.co/datasets/kerne-protocol/honesty-index),
+where its own row is flagged \`is_kerne\` and is measured by the same share price
+arithmetic as every other protocol on it. It does not come out of that well.
+Read the row rather than this paragraph: it refreshes daily and this paragraph
+does not, and a number typed here would be a false claim the moment it moved.
+
+If Kerne ever ships a Solana product it goes on this board, measured by this
+code, with no exemption. Until then, absence here is a scope boundary and not a
+favour.
 
 ## Licence and scope
 

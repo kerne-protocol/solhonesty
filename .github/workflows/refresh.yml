@@ -4,6 +4,25 @@ name: refresh
 # Face, so the dataset refreshes itself with no server to run. The offset from
 # the hour is deliberate: the collector should not land on the same minute as
 # everyone else's cron against the same public endpoints.
+#
+# EVERY GUARD BELOW EXISTS BECAUSE OF THE SAME INCIDENT, SO READ THIS FIRST.
+#
+# Between 2026-08-05 and 2026-08-08 this job failed four consecutive nights and
+# nobody noticed. The cause was trivial: see the node steps below. The damage
+# was not. This repository, and the project it belongs to, publicly describe
+# this dataset as self-refreshing, and for four days that was false while every
+# surface still said otherwise. A dataset about other people's honesty going
+# quietly stale is the most quotable failure this project can have, and the only
+# reason it ran for four days is that a red tick in a tab nobody opens is not a
+# notification.
+#
+# So the job now (a) proves it works on the version floor it advertises,
+# (b) refuses to publish a board that fails a health check, (c) verifies the
+# PUBLIC dataset rather than trusting its own response codes, and (d) opens a
+# GitHub issue when any of that fails, and closes it when a later run passes.
+#
+# It is deliberately ONE job. Every check shares a single failure path, so there
+# is no way to add a check later that goes red without anybody being told.
 
 on:
   schedule:
@@ -12,6 +31,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   refresh:
@@ -24,26 +44,38 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Node 22, not 20, and the reason is the bug that pin used to cause.
+      # THE FLOOR, TESTED RATHER THAN ASSERTED.
       #
-      # `npm test` runs `node --test "test/*.test.mjs"`. The glob is quoted, so
-      # the shell hands it to node literally, and node only learned to expand a
-      # glob in --test at version 21. On a developer machine running node 24 the
-      # suite passed; on this runner pinned to 20 it failed with "Could not find
-      # test/*.test.mjs" every single night. Four consecutive scheduled runs
-      # failed that way before anyone looked, which meant this repository was
-      # advertising a self-refreshing dataset that had never once refreshed.
+      # package.json says node >= 20. That claim was false for the entire life of
+      # this repository, and the nightly refresh is what paid for it: `npm test`
+      # ran `node --test "test/*.test.mjs"`, the shell handed the quoted glob to
+      # node literally, and node only learned to expand a glob in --test at
+      # version 21. A developer machine on node 24 passed. This runner, pinned to
+      # 20, failed every night with "Could not find test/*.test.mjs".
       #
-      # Moving to 22 also clears the runner's node 20 deprecation warning.
+      # The script no longer uses a glob, so the bug is fixed at the root rather
+      # than pinned around. This step is what stops the claim drifting back into
+      # fiction: if the floor ever breaks again, it breaks here, tonight, loudly.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Offline suite on the oldest node this package claims to support
+        run: npm test
+
+      # And now the version the collector actually runs on.
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Test offline
+      - name: Offline suite on the version this collector runs
         run: npm test
 
       - name: Build the board
         run: node bin/solhonesty.mjs build --out out
+
+      # Before anything is committed or mirrored. A board missing half its
+      # products, or carrying a figure with no source, is not published at all.
+      - name: Refuse to publish an unhealthy board
+        run: node scripts/assert-board-health.mjs --out out
 
       - name: Commit if anything moved
         run: |
@@ -63,3 +95,55 @@ jobs:
       - name: Mirror to Hugging Face
         if: ${{ env.HF_TOKEN != '' }}
         run: node scripts/mirror-to-huggingface.mjs
+
+      # The skip above is a kindness to forks and a trap for us. On THIS
+      # repository a missing token means the distribution surface has silently
+      # switched itself off, which is the failure mode this whole file is about,
+      # so here it is fatal rather than quiet.
+      - name: A missing token is a fork's business, not ours
+        if: ${{ github.repository == 'kerne-protocol/solhonesty' && env.HF_TOKEN == '' }}
+        run: |
+          echo "HF_TOKEN is not set on the canonical repository."
+          echo "The Hugging Face mirror has been skipping silently, so the public dataset is frozen."
+          exit 1
+
+      # Read the published file back over its public URL, unauthenticated. A 200
+      # from the commit endpoint is not evidence that a stranger can fetch
+      # today's data. This is.
+      - name: Verify the public dataset actually moved
+        if: ${{ env.HF_TOKEN != '' }}
+        run: node scripts/assert-mirror-published.mjs --out out
+
+      # A red tick is not a notification. An open issue is.
+      - name: Open an issue if any of that failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: The self-refreshing dataset is not refreshing
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          stamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          body="The scheduled refresh failed at ${stamp}.
+
+          Run: ${RUN_URL}
+
+          While this issue is open, the dataset this repository describes as self-refreshing is frozen at its last good snapshot, and every surface that calls it self-refreshing is making a claim that is not true.
+
+          This alert exists because the previous failure of this job ran for four consecutive nights, 2026-08-05 through 2026-08-08, without anybody noticing. It will be closed automatically by the next run that passes."
+          existing=$(gh issue list --state open --search "in:title \"${TITLE}\"" --json number --jq '.[0].number // empty')
+          if [ -n "${existing}" ]; then
+            gh issue comment "${existing}" --body "${body}"
+          else
+            gh issue create --title "${TITLE}" --body "${body}"
+          fi
+
+      - name: Close that issue once a run passes again
+        if: success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: The self-refreshing dataset is not refreshing
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          for n in $(gh issue list --state open --search "in:title \"${TITLE}\"" --json number --jq '.[].number'); do
+            gh issue close "${n}" --comment "Refresh passed again, including the public dataset check: ${RUN_URL}"
+          done

@@ -10,10 +10,11 @@
   "bin": {
     "solhonesty": "./bin/solhonesty.mjs"
   },
+  "$comment:test": "Bare `node --test` discovers the suite itself. The previous form passed a quoted glob, which the shell handed to node literally, and node only learned to expand a glob in --test at version 21. On node 20 it therefore failed with 'Could not find test/*.test.mjs' and took the nightly refresh down four times before anyone looked. Discovery works from node 18 up, so the engines floor below is true again rather than aspirational.",
   "scripts": {
     "build": "node bin/solhonesty.mjs build --out out",
-    "test": "node --test \"test/*.test.mjs\"",
-    "test:live": "SOLHONESTY_LIVE=1 node --test \"test/*.test.mjs\""
+    "test": "node --test",
+    "test:live": "SOLHONESTY_LIVE=1 node --test"
   },
   "dependencies": {},
   "devDependencies": {}

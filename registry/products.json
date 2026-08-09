@@ -85,6 +85,73 @@
       "collateralMint": "BTsbZDV7aCMRJ3VNy9ygV4Q2UeEo9GpR8D6VvmMZzNr8",
       "advertisedSurface": "https://save.finance/dashboard",
       "llamaPoolId": "7ec9f4ba-803c-4935-97e2-342aa75b4ff4"
+    },
+    {
+      "key": "jupiter-lend-usdc",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn USDC",
+      "symbol": "USDC",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "9BEcn9aPEmhSPbPQeFGjidRiEKki46fVQDyPpSQXPA2D",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "d783c8df-e2ed-44b4-8317-161ccc1b5f06"
+    },
+    {
+      "key": "jupiter-lend-jupusd",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn JupUSD",
+      "symbol": "JupUSD",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "7GxATsNMnaC88vdwd2t3mwrFuQwwGvmYPrUQ4D6FotXk",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "0dbb5021-00c7-40e2-9e2b-a757f4305ebf"
+    },
+    {
+      "key": "jupiter-lend-usdt",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn USDT",
+      "symbol": "USDT",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "Cmn4v2wipYV41dkakDvCgFJpxhtaaKt11NyWV8pjSE8A",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "a2fbc7ec-22c2-43fe-aa42-49f854aa940d"
+    },
+    {
+      "key": "jupiter-lend-usds",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn USDS",
+      "symbol": "USDS",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "j14XLJZSVMcUYpAfajdZRpnfHUpJieZHS4aPektLWvh",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "0d01dc1f-7c3e-46e2-af40-6ec4454c93f0"
+    },
+    {
+      "key": "jupiter-lend-usdg",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn USDG",
+      "symbol": "USDG",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "9fvHrYNw1A8Evpcj7X2yy4k4fT7nNHcA9L6UsamNHAif",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "c4d22a9b-a5e3-414e-92d9-76493e1ab239"
+    },
+    {
+      "key": "jupiter-lend-eurc",
+      "protocol": "Jupiter",
+      "product": "Jupiter Lend Earn EURC",
+      "symbol": "EURC",
+      "chain": "solana",
+      "adapter": "jupiter-lend",
+      "jlTokenAddress": "GcV9tEj62VncGithz4o4N9x6HWXARxuRgEAYk9zahNA8",
+      "advertisedSurface": "https://jup.ag/lend/earn",
+      "llamaPoolId": "c6d1abbb-1e0a-47a0-99bd-3155b797d7d3",
+      "$comment": "Euro denominated. Both halves of this row are measured in EURC, so the gap is internally consistent, but it is not a dollar yield and the symbol column is what says so."
     }
   ]
 }
