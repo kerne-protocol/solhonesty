@@ -57,6 +57,18 @@ function pct(n) {
   return Number.isFinite(n) ? `${n.toFixed(2)} percent` : 'not available';
 }
 
+// Symbols this board treats as dollar denominated. Anything else is still a
+// stablecoin and still belongs here, but its yield is denominated in something
+// other than dollars, and a reader sorting the advertised column would be
+// comparing two different currencies without being told. Derived from the rows
+// rather than hardcoded as prose, so the caveat appears exactly when it applies
+// and disappears when it stops applying.
+const USD_SYMBOLS = new Set(['USDC', 'USDT', 'USDS', 'USDG', 'PYUSD', 'DAI', 'USDE', 'FDUSD', 'USD1', 'USDY', 'JupUSD', 'USDU', 'USX']);
+
+export function nonDollarRows(rows) {
+  return rows.filter((r) => r.symbol && !USD_SYMBOLS.has(r.symbol));
+}
+
 export function datasetCard(board) {
   const s = board.summary;
   const comparable = board.rows.filter((r) => r.comparable);
@@ -80,6 +92,14 @@ export function datasetCard(board) {
   // here, and they are ranked on gap_vs_median_pct. See summarize() in
   // engine.mjs for why naming a protocol off a single spot reading is the one
   // thing this dataset must never do.
+  const nonDollar = nonDollarRows(board.rows);
+  const currencyNote =
+    nonDollar.length > 0
+      ? `\n**Not every row on this board is denominated in dollars.** ${nonDollar
+          .map((r) => `${r.product} (${r.symbol})`)
+          .join(', ')}. Each such row is internally consistent, because its advertised and realized figures are both measured in its own unit, so its \`gap_pct\` is meaningful. Sorting the \`advertised_pct\` column across the whole board is not, because it puts two currencies in one ranking. The \`symbol\` column is what tells them apart.\n`
+      : '';
+
   const widest = s.widest_gap
     ? `Widest gap among rows this board can rank: ${s.widest_gap.key}, at ${pct(
         s.widest_gap.gap_vs_median_pct,
@@ -149,6 +169,7 @@ ${table}
 
 ${widest}
 ${unrankedNote}
+${currencyNote}
 
 ## Read the gap column with this next to it
 
