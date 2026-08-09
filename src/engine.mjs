@@ -16,7 +16,19 @@ import * as save from './adapters/saveReserve.mjs';
 import * as jupiter from './adapters/jupiterLend.mjs';
 import { fetchRateSeries } from './adapters/llamaSeries.mjs';
 
-export const SCHEMA_VERSION = 1;
+// 2 (2026-08-09), from 1. Anybody parsing index.json or current.csv needs to
+// know these changed, and a version that never moves tells them nothing:
+//
+//   - new column `advertised_transform`, empty unless this board converted the
+//     issuer's figure before comparing it
+//   - new `realized_method` value `issuer_share_price_observed`
+//   - `summary.widest_gap` and `summary.lowest_delivery` are now taken only
+//     over rows with a readable advertised distribution and are ranked on
+//     gap_vs_median_pct, so they carry that field and may be null on a board
+//     where every row is comparable. `rows_rankable`, `rows_unrankable`,
+//     `unrankable_keys`, `ranking_basis` and `protocols_tracked` are new.
+//   - observations.jsonl records carry `advertisedPct`
+export const SCHEMA_VERSION = 2;
 
 export function loadRegistry(file) {
   const raw = fs.readFileSync(file, 'utf8');
