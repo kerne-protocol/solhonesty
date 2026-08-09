@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-09T18:18:00.659Z",
+  "generated_at": "2026-08-09T18:18:42.103Z",
   "window_days": 30,
   "chain": "solana",
   "rows": [
@@ -13,13 +13,13 @@
       "reserve": "D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59",
       "comparable": true,
       "reason": null,
-      "advertised_pct": 3.9267,
+      "advertised_pct": 3.9868,
       "realized_pct": 4.103,
-      "gap_pct": -0.1763,
-      "delivered_pct": 104.49,
+      "gap_pct": -0.1162,
+      "delivered_pct": 102.91,
       "published_figures": 1,
       "realized_method": "issuer_share_price_history",
-      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:53.510Z&end=2026-08-09T18:17:53.510Z",
+      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:25.227Z&end=2026-08-09T18:18:25.227Z",
       "realized_from": "2026-07-10T17:00:00.000Z",
       "realized_to": "2026-08-09T17:00:00.000Z",
       "realized_observations": 820,
@@ -35,25 +35,25 @@
       "advertised_p75_pct": 4.2589,
       "advertised_max_pct": 24.3491,
       "advertised_spread_ratio": 7.59,
-      "spot_percentile": 52.7,
+      "spot_percentile": 55.1,
       "spot_is_representative": true,
       "spot_caveat": null,
       "gap_vs_median_pct": -0.2506,
       "delivered_vs_median_pct": 106.51,
-      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:53.510Z&end=2026-08-09T18:17:53.510Z",
+      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:25.227Z&end=2026-08-09T18:18:25.227Z",
       "advertised_basis": "spot-apy",
       "advertised_transform": null,
       "advertised_source_url": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/metrics",
-      "advertised_verbatim": "\"reserve\":\"D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59\",\"liquidityToken\":\"USDC\",\"supplyApy\":\"0.039267102403058196\"",
+      "advertised_verbatim": "\"reserve\":\"D6q6wuQSrifJKZYpR1M8R4YawnLDtDsMmWM1NbBmgJ59\",\"liquidityToken\":\"USDC\",\"supplyApy\":\"0.03986832817208774\"",
       "advertised_surface": "https://app.kamino.finance/lending",
-      "captured_at": "2026-08-09T18:17:53.509Z",
+      "captured_at": "2026-08-09T18:18:25.227Z",
       "context": {
         "symbol": "USDC",
         "liquidityTokenMint": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-        "totalSupplyUsd": 108663779.41383466
+        "totalSupplyUsd": 107859424.70099129
       },
       "note": null,
-      "built_ms": 1351
+      "built_ms": 1607
     },
     {
       "key": "kamino-lend-usdg",
@@ -70,7 +70,7 @@
       "delivered_pct": 109.07,
       "published_figures": 1,
       "realized_method": "issuer_share_price_history",
-      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:54.551Z&end=2026-08-09T18:17:54.551Z",
+      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:26.413Z&end=2026-08-09T18:18:26.413Z",
       "realized_from": "2026-07-10T17:00:00.000Z",
       "realized_to": "2026-08-09T17:00:00.000Z",
       "realized_observations": 820,
@@ -91,20 +91,20 @@
       "spot_caveat": null,
       "gap_vs_median_pct": -0.3558,
       "delivered_vs_median_pct": 114.32,
-      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:54.551Z&end=2026-08-09T18:17:54.551Z",
+      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:26.413Z&end=2026-08-09T18:18:26.413Z",
       "advertised_basis": "spot-apy",
       "advertised_transform": null,
       "advertised_source_url": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/metrics",
       "advertised_verbatim": "\"reserve\":\"ESCkPWKHmgNE7Msf77n9yzqJd5kQVWWGy3o5Mgxhvavp\",\"liquidityToken\":\"USDG\",\"supplyApy\":\"0.026039092108876893\"",
       "advertised_surface": "https://app.kamino.finance/lending",
-      "captured_at": "2026-08-09T18:17:54.551Z",
+      "captured_at": "2026-08-09T18:18:26.413Z",
       "context": {
         "symbol": "USDG",
         "liquidityTokenMint": "2u1tszSeqZ3qBWF3uNGPFc8TzMk2tdiwknnRMWGWjGWH",
         "totalSupplyUsd": 56008866.12739771
       },
       "note": null,
-      "built_ms": 1080
+      "built_ms": 1123
     },
     {
       "key": "kamino-lend-pyusd",
@@ -121,7 +121,7 @@
       "delivered_pct": 114.96,
       "published_figures": 1,
       "realized_method": "issuer_share_price_history",
-      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:55.631Z&end=2026-08-09T18:17:55.631Z",
+      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:27.536Z&end=2026-08-09T18:18:27.536Z",
       "realized_from": "2026-07-10T17:00:00.000Z",
       "realized_to": "2026-08-09T17:00:00.000Z",
       "realized_observations": 820,
@@ -142,20 +142,20 @@
       "spot_caveat": null,
       "gap_vs_median_pct": -0.6911,
       "delivered_vs_median_pct": 117.09,
-      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:55.631Z&end=2026-08-09T18:17:55.631Z",
+      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:27.536Z&end=2026-08-09T18:18:27.536Z",
       "advertised_basis": "spot-apy",
       "advertised_transform": null,
       "advertised_source_url": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/metrics",
-      "advertised_verbatim": "\"reserve\":\"2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN\",\"liquidityToken\":\"PYUSD\",\"supplyApy\":\"0.04118985514500739\"",
+      "advertised_verbatim": "\"reserve\":\"2gc9Dm1eB6UgVYFBUN9bWks6Kes9PbWSaPaa9DqyvEiN\",\"liquidityToken\":\"PYUSD\",\"supplyApy\":\"0.04119003012485667\"",
       "advertised_surface": "https://app.kamino.finance/lending",
-      "captured_at": "2026-08-09T18:17:55.631Z",
+      "captured_at": "2026-08-09T18:18:27.536Z",
       "context": {
         "symbol": "PYUSD",
         "liquidityTokenMint": "2b1kV6DkPAnxd5ixfnxCpjxmKwqjjaYmCZfHsFu24GXo",
-        "totalSupplyUsd": 35512802.103354104
+        "totalSupplyUsd": 35513004.89846118
       },
       "note": null,
-      "built_ms": 1036
+      "built_ms": 1132
     },
     {
       "key": "kamino-lend-usdt",
@@ -166,13 +166,13 @@
       "reserve": "H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S",
       "comparable": true,
       "reason": null,
-      "advertised_pct": 2.6913,
+      "advertised_pct": 2.6889,
       "realized_pct": 3.6269,
-      "gap_pct": -0.9357,
-      "delivered_pct": 134.77,
+      "gap_pct": -0.9381,
+      "delivered_pct": 134.89,
       "published_figures": 1,
       "realized_method": "issuer_share_price_history",
-      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:56.667Z&end=2026-08-09T18:17:56.667Z",
+      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:28.668Z&end=2026-08-09T18:18:28.668Z",
       "realized_from": "2026-07-10T17:00:00.000Z",
       "realized_to": "2026-08-09T17:00:00.000Z",
       "realized_observations": 820,
@@ -188,25 +188,25 @@
       "advertised_p75_pct": 3.9538,
       "advertised_max_pct": 4.2655,
       "advertised_spread_ratio": 1.93,
-      "spot_percentile": 10.2,
+      "spot_percentile": 9.5,
       "spot_is_representative": false,
       "spot_caveat": "this reading sits at the 10th percentile of the same figure's own 820 observation history, which ranged 2.21 to 4.27 percent, so a gap computed from it reflects the sampling instant as much as the product",
       "gap_vs_median_pct": 0.1424,
       "delivered_vs_median_pct": 96.22,
-      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:56.667Z&end=2026-08-09T18:17:56.667Z",
+      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:28.668Z&end=2026-08-09T18:18:28.668Z",
       "advertised_basis": "spot-apy",
       "advertised_transform": null,
       "advertised_source_url": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/metrics",
-      "advertised_verbatim": "\"reserve\":\"H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S\",\"liquidityToken\":\"USDT\",\"supplyApy\":\"0.026912552651946697\"",
+      "advertised_verbatim": "\"reserve\":\"H3t6qZ1JkguCNTi9uzVKqQ7dvt2cum4XiXWom6Gn5e5S\",\"liquidityToken\":\"USDT\",\"supplyApy\":\"0.026888607397027142\"",
       "advertised_surface": "https://app.kamino.finance/lending",
-      "captured_at": "2026-08-09T18:17:56.667Z",
+      "captured_at": "2026-08-09T18:18:28.668Z",
       "context": {
         "symbol": "USDT",
         "liquidityTokenMint": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
-        "totalSupplyUsd": 10500274.817453153
+        "totalSupplyUsd": 10508737.79390691
       },
       "note": null,
-      "built_ms": 1041
+      "built_ms": 1093
     },
     {
       "key": "kamino-lend-usds",
@@ -223,7 +223,7 @@
       "delivered_pct": 108.86,
       "published_figures": 1,
       "realized_method": "issuer_share_price_history",
-      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:57.708Z&end=2026-08-09T18:17:57.708Z",
+      "realized_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:29.761Z&end=2026-08-09T18:18:29.761Z",
       "realized_from": "2026-07-10T17:00:00.000Z",
       "realized_to": "2026-08-09T17:00:00.000Z",
       "realized_observations": 820,
@@ -244,20 +244,20 @@
       "spot_caveat": "this reading sits at the 11th percentile of the same figure's own 820 observation history, which ranged 3.34 to 4.79 percent, so a gap computed from it reflects the sampling instant as much as the product",
       "gap_vs_median_pct": -0.0172,
       "delivered_vs_median_pct": 100.4,
-      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA/metrics/history?env=mainnet-beta&start=2026-07-05T18:17:57.708Z&end=2026-08-09T18:17:57.708Z",
+      "advertised_history_source": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA/metrics/history?env=mainnet-beta&start=2026-07-05T18:18:29.761Z&end=2026-08-09T18:18:29.761Z",
       "advertised_basis": "spot-apy",
       "advertised_transform": null,
       "advertised_source_url": "https://api.kamino.finance/kamino-market/7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF/reserves/metrics",
       "advertised_verbatim": "\"reserve\":\"BHUi32TrEsfN2U821G4FprKrR4hTeK4LCWtA3BFetuqA\",\"liquidityToken\":\"USDS\",\"supplyApy\":\"0.03946184831470423\"",
       "advertised_surface": "https://app.kamino.finance/lending",
-      "captured_at": "2026-08-09T18:17:57.708Z",
+      "captured_at": "2026-08-09T18:18:29.761Z",
       "context": {
         "symbol": "USDS",
         "liquidityTokenMint": "USDSwr9ApdHk5bvJKMjzff41FfuX8bSxdKcR81vTwcA",
         "totalSupplyUsd": 4069426.628870414
       },
       "note": null,
-      "built_ms": 1021
+      "built_ms": 1203
     },
     {
       "key": "save-usdc",
@@ -282,8 +282,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -301,14 +301,14 @@
       "advertised_source_url": "https://api.save.finance/v1/reserves?ids=BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw",
       "advertised_verbatim": "\"rates\":{\"supplyInterest\":\"2.52\",\"borrowInterest\":\"4.19\"}",
       "advertised_surface": "https://save.finance/dashboard",
-      "captured_at": "2026-08-09T18:17:59.168Z",
+      "captured_at": "2026-08-09T18:18:31.360Z",
       "context": {
         "onChainPricePerShare": 1.3034358017134628,
         "issuerReportedExchangeRate": 1.3034358017134455,
         "onChainError": null
       },
       "note": null,
-      "built_ms": 811
+      "built_ms": 2184
     },
     {
       "key": "save-usdt",
@@ -333,8 +333,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Save publishes a current rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -352,14 +352,14 @@
       "advertised_source_url": "https://api.save.finance/v1/reserves?ids=8K9WC8xoh2rtQNY7iEGXtPvfbDCi563SdWhCAhuMP2xE",
       "advertised_verbatim": "\"rates\":{\"supplyInterest\":\"1.43\",\"borrowInterest\":\"3.32\"}",
       "advertised_surface": "https://save.finance/dashboard",
-      "captured_at": "2026-08-09T18:17:59.672Z",
+      "captured_at": "2026-08-09T18:18:33.238Z",
       "context": {
         "onChainPricePerShare": 1.3358408639146477,
         "issuerReportedExchangeRate": 1.3358408639147121,
         "onChainError": null
       },
       "note": null,
-      "built_ms": 252
+      "built_ms": 3684
     },
     {
       "key": "jupiter-lend-usdc",
@@ -384,8 +384,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -403,14 +403,14 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlUSDC\",\"supplyRate\":\"498\",\"rewardsRate\":\"74\",\"totalRate\":\"572\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:17:59.965Z",
+      "captured_at": "2026-08-09T18:18:37.009Z",
       "context": {
-        "sharePrice": 1.055027698844,
+        "sharePrice": 1.0550278311529977,
         "issuerReportedSharePrice": 1.055028,
         "sharePriceAgreesWithIssuerRounding": true,
-        "totalAssetsRaw": "408470283843465",
-        "totalSupplyRaw": "387165459533459",
-        "shareSupplyOnChain": "387165459533459",
+        "totalAssetsRaw": "408473335068937",
+        "totalSupplyRaw": "387168303060340",
+        "shareSupplyOnChain": "387168303060340",
         "shareSupplyOnChainAgrees": true,
         "shareSupplyRelativeDifference": 0,
         "supplyRateBps": "498",
@@ -418,7 +418,7 @@
         "totalRateBps": "572"
       },
       "note": null,
-      "built_ms": 282
+      "built_ms": 897
     },
     {
       "key": "jupiter-lend-jupusd",
@@ -443,8 +443,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -462,7 +462,7 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlJupUSD\",\"supplyRate\":\"376\",\"rewardsRate\":\"99\",\"totalRate\":\"475\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:18:00.074Z",
+      "captured_at": "2026-08-09T18:18:37.729Z",
       "context": {
         "sharePrice": 1.0312783710249958,
         "issuerReportedSharePrice": 1.031278,
@@ -477,7 +477,7 @@
         "totalRateBps": "475"
       },
       "note": null,
-      "built_ms": 115
+      "built_ms": 973
     },
     {
       "key": "jupiter-lend-usdt",
@@ -502,8 +502,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -521,7 +521,7 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlUSDT\",\"supplyRate\":\"307\",\"rewardsRate\":\"0\",\"totalRate\":\"307\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:18:00.189Z",
+      "captured_at": "2026-08-09T18:18:38.702Z",
       "context": {
         "sharePrice": 1.0458265895499517,
         "issuerReportedSharePrice": 1.045827,
@@ -536,7 +536,7 @@
         "totalRateBps": "307"
       },
       "note": null,
-      "built_ms": 112
+      "built_ms": 719
     },
     {
       "key": "jupiter-lend-usds",
@@ -561,8 +561,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -580,7 +580,7 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlUSDS\",\"supplyRate\":\"345\",\"rewardsRate\":\"0\",\"totalRate\":\"345\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:18:00.301Z",
+      "captured_at": "2026-08-09T18:18:39.421Z",
       "context": {
         "sharePrice": 1.0595428252787973,
         "issuerReportedSharePrice": 1.059539,
@@ -595,7 +595,7 @@
         "totalRateBps": "345"
       },
       "note": null,
-      "built_ms": 108
+      "built_ms": 1237
     },
     {
       "key": "jupiter-lend-usdg",
@@ -620,8 +620,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -639,12 +639,12 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlUSDG\",\"supplyRate\":\"429\",\"rewardsRate\":\"0\",\"totalRate\":\"429\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:18:00.409Z",
+      "captured_at": "2026-08-09T18:18:40.658Z",
       "context": {
-        "sharePrice": 1.0645557035389337,
+        "sharePrice": 1.0645563303388772,
         "issuerReportedSharePrice": 1.064556,
         "sharePriceAgreesWithIssuerRounding": true,
-        "totalAssetsRaw": "3279813535939",
+        "totalAssetsRaw": "3279815467061",
         "totalSupplyRaw": "3080922421472",
         "shareSupplyOnChain": "3080922421472",
         "shareSupplyOnChainAgrees": true,
@@ -654,7 +654,7 @@
         "totalRateBps": "429"
       },
       "note": null,
-      "built_ms": 139
+      "built_ms": 692
     },
     {
       "key": "jupiter-lend-eurc",
@@ -679,8 +679,8 @@
       "price_per_share_from": null,
       "price_per_share_to": null,
       "advertised_history_ok": false,
-      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 2 observation(s), which is not yet enough to describe a distribution",
-      "advertised_history_observations": 2,
+      "advertised_history_reason": "Jupiter publishes a current supply rate but no history of that rate, so the distribution its spot reading was drawn from cannot be measured from the issuer surface. This repository has been recording that figure itself since its first run and has 3 observation(s), which is not yet enough to describe a distribution",
+      "advertised_history_observations": 3,
       "advertised_min_pct": null,
       "advertised_p25_pct": null,
       "advertised_median_pct": null,
@@ -698,7 +698,7 @@
       "advertised_source_url": "https://lite-api.jup.ag/lend/v1/earn/tokens",
       "advertised_verbatim": "\"symbol\":\"jlEURC\",\"supplyRate\":\"296\",\"rewardsRate\":\"0\",\"totalRate\":\"296\"",
       "advertised_surface": "https://jup.ag/lend/earn",
-      "captured_at": "2026-08-09T18:18:00.548Z",
+      "captured_at": "2026-08-09T18:18:41.350Z",
       "context": {
         "sharePrice": 1.0402277607619066,
         "issuerReportedSharePrice": 1.040228,
@@ -713,7 +713,7 @@
         "totalRateBps": "296"
       },
       "note": null,
-      "built_ms": 111
+      "built_ms": 753
     }
   ],
   "summary": {
@@ -737,12 +737,12 @@
     "widest_gap": {
       "key": "kamino-lend-usdt",
       "gap_vs_median_pct": 0.1424,
-      "gap_pct": -0.9357
+      "gap_pct": -0.9381
     },
     "lowest_delivery": {
       "key": "kamino-lend-usdt",
       "delivered_vs_median_pct": 96.22,
-      "delivered_pct": 134.77
+      "delivered_pct": 134.89
     },
     "advertised_stability": {
       "rows_with_advertised_history": 5,
