@@ -8,7 +8,15 @@ tags:
   - defi
   - yield
   - transparency
-pretty_name: Solana Honesty Index
+  - kamino
+pretty_name: Solana Yield Honesty Index
+size_categories:
+  - n<1K
+configs:
+  - config_name: current
+    data_files:
+      - split: train
+        path: current.csv
 ---
 
 # Solana Honesty Index
@@ -16,16 +24,16 @@ pretty_name: Solana Honesty Index
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-09T01:51:36.982Z. Window 30 days.
+Snapshot generated 2026-08-09T02:00:00.910Z. Window 30 days.
 7 products tracked, 7 comparable,
 0 published but not comparable. Realized figures: 5 by issuer_share_price_history, 2 by thirdparty_rate_series.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9611 | 4.1065 | -0.1454 | 103.67 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 2.4815 | 2.912 | -0.4306 | 117.35 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 4.7135 | 4.7082 | 0.0053 | 99.89 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 2.6766 | 3.645 | -0.9684 | 136.18 | issuer_share_price_history |
+| Kamino Lend USDC (Main market) | 3.9608 | 4.1065 | -0.1457 | 103.68 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 2.4815 | 2.912 | -0.4305 | 117.35 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 4.7135 | 4.7082 | 0.0054 | 99.89 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 2.6793 | 3.645 | -0.9657 | 136.04 | issuer_share_price_history |
 | Kamino Lend USDS (Main market) | 3.9426 | 4.3002 | -0.3576 | 109.07 | issuer_share_price_history |
 | Save USDC (Main pool) | 2.53 | 2.3619 | 0.1681 | 93.35 | thirdparty_rate_series |
 | Save USDT (Main pool) | 1.42 | 1.3901 | 0.0299 | 97.89 | thirdparty_rate_series |
@@ -49,10 +57,10 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9611 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 53.8 | -0.2529 |
+| Kamino Lend USDC (Main market) | 3.9608 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 53.8 | -0.2529 |
 | Kamino Lend USDG (Main market) | 2.4815 | 1.8958 | 2.4853 | 11.7439 | 6.19x | 48.4 | -0.4267 |
 | Kamino Lend PYUSD (Main market) | 4.7135 | 1.3223 | 4.004 | 24.3431 | 18.41x | 72.1 | -0.7042 |
-| Kamino Lend USDT (Main market) | 2.6766 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 7.4 | 0.1243 |
+| Kamino Lend USDT (Main market) | 2.6793 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 7.6 | 0.1243 |
 | Kamino Lend USDS (Main market) | 3.9426 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 9 | -0.0217 |
 | Save USDC (Main pool) | 2.53 | not published | not published | not published | n/a | n/a | n/a |
 | Save USDT (Main pool) | 1.42 | not published | not published | not published | n/a | n/a | n/a |

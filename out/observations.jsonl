@@ -6,3 +6,5 @@
 {"key":"save-usdt","timestampSeconds":1786233934,"pricePerShare":1.335798165377624,"slot":"438091557","source":"onchain:save-reserve"}
 {"key":"save-usdc","timestampSeconds":1786240294,"pricePerShare":1.3033734766300569,"slot":"438106638","source":"onchain:save-reserve"}
 {"key":"save-usdt","timestampSeconds":1786240295,"pricePerShare":1.3358063983931858,"slot":"438106642","source":"onchain:save-reserve"}
+{"key":"save-usdc","timestampSeconds":1786240800,"pricePerShare":1.3033734766300569,"slot":"438107843","source":"onchain:save-reserve"}
+{"key":"save-usdt","timestampSeconds":1786240800,"pricePerShare":1.3358063983931858,"slot":"438107844","source":"onchain:save-reserve"}

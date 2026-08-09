@@ -1,9 +1,9 @@
 name: refresh
 
-# Rebuilds the board daily and commits the outputs, so the dataset refreshes
-# itself with no server to run and no secret to hold. The offset from the hour
-# is deliberate: the collector should not land on the same minute as everyone
-# else's cron against the same public endpoints.
+# Rebuilds the board daily, commits the outputs, and mirrors them to Hugging
+# Face, so the dataset refreshes itself with no server to run. The offset from
+# the hour is deliberate: the collector should not land on the same minute as
+# everyone else's cron against the same public endpoints.
 
 on:
   schedule:
@@ -16,12 +16,28 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    # Job level, not step level: a step's own `env:` block is not visible to
+    # that step's `if:` condition, so the skip check would never see the token.
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_DATASET: kerne-protocol/solana-yield-honesty
     steps:
       - uses: actions/checkout@v4
 
+      # Node 22, not 20, and the reason is the bug that pin used to cause.
+      #
+      # `npm test` runs `node --test "test/*.test.mjs"`. The glob is quoted, so
+      # the shell hands it to node literally, and node only learned to expand a
+      # glob in --test at version 21. On a developer machine running node 24 the
+      # suite passed; on this runner pinned to 20 it failed with "Could not find
+      # test/*.test.mjs" every single night. Four consecutive scheduled runs
+      # failed that way before anyone looked, which meant this repository was
+      # advertising a self-refreshing dataset that had never once refreshed.
+      #
+      # Moving to 22 also clears the runner's node 20 deprecation warning.
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Test offline
         run: npm test
@@ -40,3 +56,10 @@ jobs:
             git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             git push
           fi
+
+      # Mirror to Hugging Face. Skipped rather than failed when the secret is
+      # absent, so a fork without the token still gets a working daily rebuild
+      # instead of a red badge it cannot fix.
+      - name: Mirror to Hugging Face
+        if: ${{ env.HF_TOKEN != '' }}
+        run: node scripts/mirror-to-huggingface.mjs

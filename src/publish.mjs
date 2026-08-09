@@ -96,6 +96,10 @@ export function datasetCard(board) {
       )} to ${pct(stab.widest_spread.max_pct)} over the window, a factor of ${stab.widest_spread.ratio}.`
     : 'No row in this snapshot carried a readable advertised history.';
 
+  // The `configs` block is what makes the Hugging Face dataset viewer parse
+  // current.csv instead of showing a file listing. Without it the mirror is a
+  // folder of downloads rather than a browsable table, which is most of the
+  // reason to mirror it at all.
   return `---
 license: cc-by-4.0
 language:
@@ -106,7 +110,15 @@ tags:
   - defi
   - yield
   - transparency
-pretty_name: Solana Honesty Index
+  - kamino
+pretty_name: Solana Yield Honesty Index
+size_categories:
+  - n<1K
+configs:
+  - config_name: current
+    data_files:
+      - split: train
+        path: current.csv
 ---
 
 # Solana Honesty Index
