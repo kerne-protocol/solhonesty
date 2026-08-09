@@ -26,26 +26,26 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-09T18:18:42.103Z. Window 30 days.
+Snapshot generated 2026-08-09T18:52:23.393Z. Window 30 days.
 13 products across 3 protocols,
 13 comparable, 0 published but not
 comparable. Realized figures: 5 by issuer_share_price_history, 8 by thirdparty_rate_series.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9868 | 4.103 | -0.1162 | 102.91 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 2.6039 | 2.84 | -0.2361 | 109.07 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 4.119 | 4.7352 | -0.6162 | 114.96 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 2.6889 | 3.6269 | -0.9381 | 134.89 | issuer_share_price_history |
+| Kamino Lend USDC (Main market) | 3.8687 | 4.103 | -0.2343 | 106.06 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 2.6039 | 2.84 | -0.236 | 109.07 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 4.1191 | 4.7352 | -0.6161 | 114.96 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 2.7094 | 3.6269 | -0.9175 | 133.86 | issuer_share_price_history |
 | Kamino Lend USDS (Main market) | 3.9462 | 4.2957 | -0.3495 | 108.86 | issuer_share_price_history |
-| Save USDC (Main pool) | 2.52 | 2.3656 | 0.1544 | 93.87 | thirdparty_rate_series |
+| Save USDC (Main pool) | 2.52 | 2.3659 | 0.1541 | 93.88 | thirdparty_rate_series |
 | Save USDT (Main pool) | 1.43 | 1.3908 | 0.0392 | 97.26 | thirdparty_rate_series |
-| Jupiter Lend Earn USDC | 5.1057 | 3.9928 | 1.113 | 78.2 | thirdparty_rate_series |
-| Jupiter Lend Earn JupUSD | 3.8314 | 3.7643 | 0.067 | 98.25 | thirdparty_rate_series |
-| Jupiter Lend Earn USDT | 3.1175 | 3.265 | -0.1475 | 104.73 | thirdparty_rate_series |
-| Jupiter Lend Earn USDS | 3.51 | 3.7208 | -0.2107 | 106 | thirdparty_rate_series |
-| Jupiter Lend Earn USDG | 4.3831 | 4.3648 | 0.0183 | 99.58 | thirdparty_rate_series |
-| Jupiter Lend Earn EURC | 3.0041 | 3.4693 | -0.4652 | 115.49 | thirdparty_rate_series |
+| Jupiter Lend Earn USDC | 5.1057 | 3.9944 | 1.1114 | 78.23 | thirdparty_rate_series |
+| Jupiter Lend Earn JupUSD | 3.8314 | 3.7644 | 0.067 | 98.25 | thirdparty_rate_series |
+| Jupiter Lend Earn USDT | 3.1175 | 3.2648 | -0.1473 | 104.73 | thirdparty_rate_series |
+| Jupiter Lend Earn USDS | 3.51 | 3.7209 | -0.2109 | 106.01 | thirdparty_rate_series |
+| Jupiter Lend Earn USDG | 4.3831 | 4.3654 | 0.0177 | 99.6 | thirdparty_rate_series |
+| Jupiter Lend Earn EURC | 3.0041 | 3.4686 | -0.4645 | 115.46 | thirdparty_rate_series |
 
 Widest gap among rows this board can rank: kamino-lend-usdt, at 0.14 percent against the median of its own advertised history.
 
@@ -68,10 +68,10 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9868 | 3.2082 | 3.8524 | 24.3491 | 7.59x | 55.1 | -0.2506 |
+| Kamino Lend USDC (Main market) | 3.8687 | 3.2082 | 3.8524 | 24.3491 | 7.59x | 50.7 | -0.2506 |
 | Kamino Lend USDG (Main market) | 2.6039 | 1.8958 | 2.4842 | 11.7439 | 6.19x | 67.7 | -0.3558 |
-| Kamino Lend PYUSD (Main market) | 4.119 | 1.3223 | 4.0441 | 24.3431 | 18.41x | 54.4 | -0.6911 |
-| Kamino Lend USDT (Main market) | 2.6889 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 9.5 | 0.1424 |
+| Kamino Lend PYUSD (Main market) | 4.1191 | 1.3223 | 4.0441 | 24.3431 | 18.41x | 54.4 | -0.6911 |
+| Kamino Lend USDT (Main market) | 2.7094 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 11.6 | 0.1424 |
 | Kamino Lend USDS (Main market) | 3.9462 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 11.3 | -0.0172 |
 | Save USDC (Main pool) | 2.52 | not published | not published | not published | n/a | n/a | n/a |
 | Save USDT (Main pool) | 1.43 | not published | not published | not published | n/a | n/a | n/a |
