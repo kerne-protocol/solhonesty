@@ -24,21 +24,21 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-09T02:01:52.046Z. Window 30 days.
+Snapshot generated 2026-08-09T07:41:35.073Z. Window 30 days.
 7 products tracked, 7 comparable,
 0 published but not comparable. Realized figures: 5 by issuer_share_price_history, 2 by thirdparty_rate_series.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9608 | 4.1065 | -0.1457 | 103.68 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 2.4815 | 2.912 | -0.4305 | 117.35 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 4.7135 | 4.7082 | 0.0054 | 99.89 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 2.6793 | 3.645 | -0.9657 | 136.04 | issuer_share_price_history |
-| Kamino Lend USDS (Main market) | 3.9426 | 4.3002 | -0.3576 | 109.07 | issuer_share_price_history |
-| Save USDC (Main pool) | 2.53 | 2.3619 | 0.1681 | 93.35 | thirdparty_rate_series |
-| Save USDT (Main pool) | 1.42 | 1.3901 | 0.0299 | 97.89 | thirdparty_rate_series |
+| Kamino Lend USDC (Main market) | 3.9808 | 4.106 | -0.1252 | 103.15 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 2.4888 | 2.8851 | -0.3963 | 115.92 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 4.9498 | 4.7203 | 0.2295 | 95.36 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 2.6844 | 3.6387 | -0.9543 | 135.55 | issuer_share_price_history |
+| Kamino Lend USDS (Main market) | 3.9425 | 4.2987 | -0.3562 | 109.04 | issuer_share_price_history |
+| Save USDC (Main pool) | 2.53 | 2.3633 | 0.1667 | 93.41 | thirdparty_rate_series |
+| Save USDT (Main pool) | 1.43 | 1.3903 | 0.0397 | 97.23 | thirdparty_rate_series |
 
-The widest gap in this snapshot belongs to save-usdc, at 0.17 percent.
+The widest gap in this snapshot belongs to kamino-lend-pyusd, at 0.23 percent.
 
 ## Read the gap column with this next to it
 
@@ -57,17 +57,17 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9608 | 3.2082 | 3.8531 | 24.3491 | 7.59x | 53.8 | -0.2534 |
-| Kamino Lend USDG (Main market) | 2.4815 | 1.8958 | 2.4851 | 11.7439 | 6.19x | 48.5 | -0.4269 |
-| Kamino Lend PYUSD (Main market) | 4.7135 | 1.3223 | 4.0056 | 24.3431 | 18.41x | 72 | -0.7026 |
-| Kamino Lend USDT (Main market) | 2.6793 | 2.2113 | 3.7694 | 4.2655 | 1.93x | 7.6 | 0.1244 |
-| Kamino Lend USDS (Main market) | 3.9426 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 9 | -0.0217 |
+| Kamino Lend USDC (Main market) | 3.9808 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 54.8 | -0.2524 |
+| Kamino Lend USDG (Main market) | 2.4888 | 1.8958 | 2.4842 | 11.7439 | 6.19x | 51.6 | -0.4009 |
+| Kamino Lend PYUSD (Main market) | 4.9498 | 1.3223 | 4.016 | 24.3431 | 18.41x | 79.9 | -0.7043 |
+| Kamino Lend USDT (Main market) | 2.6844 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 8.4 | 0.1306 |
+| Kamino Lend USDS (Main market) | 3.9425 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 8.8 | -0.0202 |
 | Save USDC (Main pool) | 2.53 | not published | not published | not published | n/a | n/a | n/a |
-| Save USDT (Main pool) | 1.42 | not published | not published | not published | n/a | n/a | n/a |
+| Save USDT (Main pool) | 1.43 | not published | not published | not published | n/a | n/a | n/a |
 
 Widest range in this snapshot: kamino-lend-pyusd, whose advertised figure ran from 1.32 percent to 24.34 percent over the window, a factor of 18.41.
 
-**2 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdt, kamino-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
+**3 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-pyusd, kamino-lend-usdt, kamino-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
 
 `gap_vs_median_pct` is the same subtraction done against the median of the
 advertised figure's own published history rather than against one reading of it.
