@@ -24,7 +24,7 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-09T02:00:00.910Z. Window 30 days.
+Snapshot generated 2026-08-09T02:01:52.046Z. Window 30 days.
 7 products tracked, 7 comparable,
 0 published but not comparable. Realized figures: 5 by issuer_share_price_history, 2 by thirdparty_rate_series.
 
@@ -57,10 +57,10 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 3.9608 | 3.2082 | 3.8536 | 24.3491 | 7.59x | 53.8 | -0.2529 |
-| Kamino Lend USDG (Main market) | 2.4815 | 1.8958 | 2.4853 | 11.7439 | 6.19x | 48.4 | -0.4267 |
-| Kamino Lend PYUSD (Main market) | 4.7135 | 1.3223 | 4.004 | 24.3431 | 18.41x | 72.1 | -0.7042 |
-| Kamino Lend USDT (Main market) | 2.6793 | 2.2113 | 3.7693 | 4.2655 | 1.93x | 7.6 | 0.1243 |
+| Kamino Lend USDC (Main market) | 3.9608 | 3.2082 | 3.8531 | 24.3491 | 7.59x | 53.8 | -0.2534 |
+| Kamino Lend USDG (Main market) | 2.4815 | 1.8958 | 2.4851 | 11.7439 | 6.19x | 48.5 | -0.4269 |
+| Kamino Lend PYUSD (Main market) | 4.7135 | 1.3223 | 4.0056 | 24.3431 | 18.41x | 72 | -0.7026 |
+| Kamino Lend USDT (Main market) | 2.6793 | 2.2113 | 3.7694 | 4.2655 | 1.93x | 7.6 | 0.1244 |
 | Kamino Lend USDS (Main market) | 3.9426 | 3.3428 | 4.2785 | 4.7902 | 1.43x | 9 | -0.0217 |
 | Save USDC (Main pool) | 2.53 | not published | not published | not published | n/a | n/a | n/a |
 | Save USDT (Main pool) | 1.42 | not published | not published | not published | n/a | n/a | n/a |
