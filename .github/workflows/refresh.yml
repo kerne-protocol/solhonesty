@@ -28,6 +28,30 @@ on:
   schedule:
     - cron: '52 6 * * *'
   workflow_dispatch:
+  # Publication follows the code, not just the clock.
+  #
+  # Without this, a change to the collector reaches the public dataset only at
+  # the next 06:52 run, so for up to a day the repository describes a dataset
+  # that is not the one being served. That is a smaller version of exactly the
+  # inconsistency this file exists to prevent, so it is worth closing.
+  #
+  # The path filter keeps prose changes out of it: editing the README must not
+  # rebuild the board and mint a snapshot commit.
+  #
+  # No loop risk. The commit below is pushed with the default GITHUB_TOKEN, and
+  # GitHub does not start a new workflow run from an event that token created.
+  # The `[skip ci]` marker is belt and braces for the day somebody swaps that
+  # token for a PAT and reintroduces the hazard without noticing.
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'bin/**'
+      - 'scripts/**'
+      - 'registry/**'
+      - 'test/**'
+      - 'package.json'
+      - '.github/workflows/refresh.yml'
 
 permissions:
   contents: write
@@ -85,7 +109,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "no change"
           else
-            git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git commit -m "refresh: $(date -u +%Y-%m-%dT%H:%M:%SZ) [skip ci]"
             git push
           fi
 
