@@ -138,6 +138,18 @@ jobs:
         if: ${{ env.HF_TOKEN != '' }}
         run: node scripts/assert-mirror-published.mjs --out out
 
+      # TEMPORARY. Removed in the very next commit.
+      #
+      # Everything above this line is real work and has already succeeded by the
+      # time this runs. This step exists once, to prove that the alerting below
+      # actually fires, because an alarm nobody has ever heard ring is not an
+      # alarm. The failure it causes is deliberate and this comment is the
+      # evidence of that.
+      - name: Deliberate drill, prove the alarm rings
+        run: |
+          echo "This failure is on purpose. See the comment above this step."
+          exit 1
+
       # A red tick is not a notification. An open issue is.
       - name: Open an issue if any of that failed
         if: failure()
