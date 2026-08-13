@@ -69,6 +69,69 @@ export function nonDollarRows(rows) {
   return rows.filter((r) => r.symbol && !USD_SYMBOLS.has(r.symbol));
 }
 
+// The lowest delivery ratio a row may carry and still be named as the worked
+// example beside the commissioned-report paragraph.
+//
+// 90 is not a grade and this board applies it nowhere else. It exists because
+// the example row sits next to a price, and a row measuring well below its own
+// advertised rate must never be the row pointed at there. Leading with a
+// product that is delivering makes the offer read as measurement, which is what
+// it is. Leading with one that is not makes it read as an accusation with an
+// invoice attached, which is the one change that could cost this board its
+// standing with the protocols on it. If no row clears the floor the card names
+// none, which is the honest degradation rather than reaching further down.
+export const EXAMPLE_DELIVERY_FLOOR = 90;
+
+// Scoped landing page. ⛔ NO `?row=` HERE, DELIBERATELY, AND DO NOT ADD ONE.
+// That parameter resolves against the EVM roster in kerne.fi's own
+// honesty-index-vaults (auditScopeRows), which contains no Solana keys, so a
+// link carrying `row=kamino-lend-usdc` would prefill nothing and quietly look
+// broken to the one reader it was built for. `src` is an analytics label only:
+// it is read by the site's first-party funnel and is never rendered.
+export const AUDIT_URL = 'https://kerne.fi/disclosure-audit?src=hf-sol';
+
+// ⛔ THIS NUMBER IS A COPY AND ITS SOURCE OF TRUTH IS IN ANOTHER REPOSITORY:
+// kerne-main, `frontend/src/lib/payment-services.ts`, `SERVICE_PRICE['disclosure-audit']`.
+// It is duplicated here only because this repository cannot import from that
+// one, and a card refreshed daily by a job nobody watches must not quote a
+// figure the checkout has stopped charging: that is a published price we would
+// have to honour or retract. The EVM sibling card READS the constant instead of
+// copying it; this is the weaker of the two arrangements and it is deliberate.
+// If /disclosure-audit is ever repriced, this line moves in the same change.
+export const DISCLOSURE_AUDIT_PRICE_USD = 499;
+
+// Ranked by CLOSENESS TO EXACT DELIVERY, not by the highest ratio, and the
+// difference matters. The highest ratio on this board is routinely a row paying
+// well above its advertised rate, which is not dishonesty but is also not the
+// claim being made here: naming a product "delivering 134 percent" as the worked
+// example for a disclosure review says its advertised figure was wrong in the
+// other direction, which is a criticism dressed as a compliment. A row landing
+// within a point of what it says is the clean example, and it is the one that
+// makes the offer read as measurement.
+// ⛔ `advertised_history_ok` IS REQUIRED HERE, not optional. The standing rule
+// added with Jupiter Lend is that the board may not NAME a row it cannot rank,
+// because a spot reading of a rate whose distribution is unknown measures when
+// the collector ran at least as much as it measures the product. That rule was
+// written for the widest-gap headline, and it applies with the same force to a
+// row named beside a price: a flattering number is no safer than an unflattering
+// one if the board cannot stand behind it. See summarize() in engine.mjs.
+export function exampleRows(rows) {
+  return rows
+    .filter(
+      (r) =>
+        r.comparable &&
+        r.advertised_history_ok &&
+        Number.isFinite(r.delivered_pct) &&
+        r.delivered_pct >= EXAMPLE_DELIVERY_FLOOR,
+    )
+    .sort(
+      (a, b) =>
+        Math.abs(a.delivered_pct - 100) - Math.abs(b.delivered_pct - 100) ||
+        String(a.key).localeCompare(String(b.key)),
+    )
+    .slice(0, 2);
+}
+
 export function datasetCard(board) {
   const s = board.summary;
   const comparable = board.rows.filter((r) => r.comparable);
@@ -121,6 +184,40 @@ export function datasetCard(board) {
         : `| ${r.product} | ${r.advertised_pct ?? 'n/a'} | not published | not published | not published | n/a | n/a | n/a |`,
     ),
   ].join('\n');
+
+  // The worked example, or an honest absence of one. See EXAMPLE_DELIVERY_FLOOR.
+  const examples = exampleRows(board.rows);
+  const commissionSection = `## If one of these products is yours
+
+Everything above is free, and stays free whether or not anybody ever buys anything. Nothing on this
+board is for sale: no row moves for money, no row is added or removed for money, and no protocol
+here has been contacted about its row. That is the boundary, and this section is the only commercial
+passage in this file.
+
+There is a longer version of this measurement that a protocol can commission **about itself**:
+<${AUDIT_URL}>
+
+${
+  examples.length > 0
+    ? `The products below are picked out of **this snapshot**, closest to exact delivery first, rather than typed into this file. Today the rows landing nearest their own advertised rate are ${examples
+        .map((r) => `**${r.product}** (${r.delivered_pct} percent of what it advertises)`)
+        .join(' and ')}.`
+    : `No row in this snapshot is currently comparable and delivering close enough to its own advertised rate to be worth naming here, so this release names none.`
+}
+
+**What it is:** a Disclosure Integrity Audit, ${DISCLOSURE_AUDIT_PRICE_USD} US dollars flat, one report inside 72 hours of
+scope confirmation, commissioned by the protocol being reviewed and delivered privately to it. It
+reviews whether your public claims match your chain on three axes: advertised against realized yield
+(the method in this dataset, run properly over your whole surface rather than one reserve), the
+addresses and figures in your documentation against the live registry, and your oracle and
+attestation posture. It ends in a signed findings summary you are free to publish or to never
+mention again.
+
+**What it is not:** it is disclosure review, not a security audit and not assurance. It certifies
+nothing about your security, your solvency or your compliance, and it is not a rating. It is also
+not this board: commissioning one does not add, move or remove a row here.
+
+`;
 
   const stabilityLine = stab.widest_spread
     ? `Widest range in this snapshot: ${stab.widest_spread.key}, whose advertised figure ran from ${pct(
@@ -199,7 +296,7 @@ ${
 advertised figure's own published history rather than against one reading of it.
 Where both exist, it is the more honest number, and it is the one to quote.
 
-## How realized is measured
+${commissionSection}## How realized is measured
 
 A share price is the only measure of a yield product a holder cannot be talked
 out of. It moves when value lands and it does not move when value does not.

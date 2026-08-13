@@ -1,7 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { toCsv, datasetCard } from '../src/publish.mjs';
+import {
+  toCsv,
+  datasetCard,
+  exampleRows,
+  DISCLOSURE_AUDIT_PRICE_USD,
+} from '../src/publish.mjs';
 import { summarize } from '../src/engine.mjs';
 
 const ROWS = [
@@ -166,4 +171,80 @@ test('the card stops claiming a widest gap when no row is comparable', () => {
   };
   const card = datasetCard(board);
   assert.match(card, /names no widest gap/);
+});
+
+// ---------------------------------------------------------------------------
+// The commissioned-report section, added 2026-08-13.
+//
+// This dataset is the only Kerne surface unaffiliated people reach on their own,
+// and until now it contained no route to anything purchasable. Adding one is
+// cheap; adding one that turns a measurement board into a funnel that grades
+// prospects is the failure mode, and these tests are the fence against it.
+// ---------------------------------------------------------------------------
+
+function boardOf(rows) {
+  return {
+    generated_at: '2026-08-13T12:00:00.000Z',
+    window_days: 30,
+    rows,
+    summary: summarize(rows),
+  };
+}
+
+test('the card carries the commissioned-audit link and its price', () => {
+  const card = datasetCard(boardOf(ROWS));
+  assert.match(card, /https:\/\/kerne\.fi\/disclosure-audit\?src=hf-sol/);
+  assert.match(card, new RegExp(`${DISCLOSURE_AUDIT_PRICE_USD} US dollars flat`));
+  assert.match(card, /disclosure review, not a security audit/);
+});
+
+test('the audit link carries no row= parameter, because Solana keys do not resolve on it', () => {
+  // kerne.fi looks the scope up from its own EVM roster (auditScopeRows). A key
+  // from this board would prefill nothing, so the link would silently look
+  // broken to the one reader it exists for.
+  const card = datasetCard(boardOf(ROWS));
+  assert.equal(/disclosure-audit\?[^\s>]*row=/.test(card), false);
+});
+
+test('the worked example never names a row delivering below the floor', () => {
+  // c-usdc delivers 10 percent of what it advertises. It is comparable, it has a
+  // readable history, and it is the widest gap on this fixture board, so every
+  // naive selection rule picks it. Naming it beside a price is the accusation
+  // this floor exists to prevent.
+  const picked = exampleRows(ROWS).map((r) => r.key);
+  assert.deepEqual(picked, ['a-usdc']);
+  assert.equal(picked.includes('c-usdc'), false);
+});
+
+test('the worked example never names a row the board cannot rank', () => {
+  const perfectButUnrankable = {
+    ...NO_HISTORY_HUGE_GAP,
+    key: 'e-usdc',
+    product: 'E USDC',
+    delivered_pct: 100,
+    advertised_history_ok: false,
+  };
+  const picked = exampleRows([...ROWS, perfectButUnrankable]).map((r) => r.key);
+  assert.equal(picked.includes('e-usdc'), false, 'a spot reading is not an example');
+});
+
+test('the example is ranked by closeness to exact delivery, not by the highest ratio', () => {
+  const overshoot = { ...ROWS[0], key: 'f-usdc', product: 'F USDC', delivered_pct: 134.31 };
+  const near = { ...ROWS[0], key: 'g-usdc', product: 'G USDC', delivered_pct: 100.4 };
+  const picked = exampleRows([overshoot, near]).map((r) => r.key);
+  assert.deepEqual(picked, ['g-usdc', 'f-usdc']);
+});
+
+test('the card names no example rather than reaching for one when nothing qualifies', () => {
+  const card = datasetCard(boardOf([ROWS[2], NO_HISTORY_HUGE_GAP]));
+  assert.match(card, /so this release names none/);
+  // The offer itself survives the absence: the link is the deliverable, the
+  // example is the garnish.
+  assert.match(card, /https:\/\/kerne\.fi\/disclosure-audit\?src=hf-sol/);
+});
+
+test('the card says out loud that a commission does not move a row', () => {
+  const card = datasetCard(boardOf(ROWS));
+  assert.match(card, /no row moves for money/);
+  assert.match(card, /commissioning one does not add, move or remove a row here/);
 });
