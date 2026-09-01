@@ -26,28 +26,28 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-08-31T14:29:14.187Z. Window 30 days.
+Snapshot generated 2026-09-01T12:06:37.625Z. Window 30 days.
 13 products across 3 protocols,
 13 comparable, 0 published but not
 comparable. Realized figures: 5 by issuer_share_price_history, 2 by onchain_share_price, 6 by issuer_share_price_observed.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 5.5922 | 4.9279 | 0.6643 | 88.12 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 4.2947 | 2.9467 | 1.3481 | 68.61 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 4.8331 | 3.9213 | 0.9118 | 81.13 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 5.6833 | 3.7616 | 1.9217 | 66.19 | issuer_share_price_history |
-| Kamino Lend USDS (Main market) | 5.4752 | 3.7257 | 1.7495 | 68.05 | issuer_share_price_history |
-| Save USDC (Main pool) | 2.66 | 2.6189 | 0.0411 | 98.45 | onchain_share_price |
-| Save USDT (Main pool) | 1.68 | 1.6001 | 0.0799 | 95.24 | onchain_share_price |
-| Jupiter Lend Earn USDC | 5.8016 | 5.1485 | 0.6532 | 88.74 | issuer_share_price_observed |
-| Jupiter Lend Earn JupUSD | 4.6862 | 5.5314 | -0.8452 | 118.03 | issuer_share_price_observed |
-| Jupiter Lend Earn USDT | 4.6757 | 3.7996 | 0.8762 | 81.26 | issuer_share_price_observed |
-| Jupiter Lend Earn USDS | 4.3413 | 4.2085 | 0.1329 | 96.94 | issuer_share_price_observed |
-| Jupiter Lend Earn USDG | 4.9272 | 4.88 | 0.0472 | 99.04 | issuer_share_price_observed |
-| Jupiter Lend Earn EURC | 3.4169 | 3.6412 | -0.2243 | 106.56 | issuer_share_price_observed |
+| Kamino Lend USDC (Main market) | 5.7529 | 4.9115 | 0.8414 | 85.37 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 4.8809 | 2.9623 | 1.9186 | 60.69 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 5.1829 | 3.9095 | 1.2734 | 75.43 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 5.1577 | 3.7452 | 1.4124 | 72.61 | issuer_share_price_history |
+| Kamino Lend USDS (Main market) | 5.4262 | 3.7018 | 1.7244 | 68.22 | issuer_share_price_history |
+| Save USDC (Main pool) | 2.71 | 2.6409 | 0.0691 | 97.45 | onchain_share_price |
+| Save USDT (Main pool) | 1.71 | 1.6185 | 0.0915 | 94.65 | onchain_share_price |
+| Jupiter Lend Earn USDC | 4.6862 | 5.1759 | -0.4897 | 110.45 | issuer_share_price_observed |
+| Jupiter Lend Earn JupUSD | 4.9797 | 5.5481 | -0.5684 | 111.42 | issuer_share_price_observed |
+| Jupiter Lend Earn USDT | 4.3205 | 3.8102 | 0.5103 | 88.19 | issuer_share_price_observed |
+| Jupiter Lend Earn USDS | 4.613 | 4.2154 | 0.3976 | 91.38 | issuer_share_price_observed |
+| Jupiter Lend Earn USDG | 4.2996 | 4.8757 | -0.5761 | 113.4 | issuer_share_price_observed |
+| Jupiter Lend Earn EURC | 3.6861 | 3.6344 | 0.0517 | 98.6 | issuer_share_price_observed |
 
-Widest gap among rows this board can rank: kamino-lend-usds, at 0.27 percent against the median of its own advertised history.
+Widest gap among rows this board can rank: kamino-lend-usds, at 0.29 percent against the median of its own advertised history.
 
 
 **Not every row on this board is denominated in dollars.** Jupiter Lend Earn EURC (EURC). Each such row is internally consistent, because its advertised and realized figures are both measured in its own unit, so its `gap_pct` is meaningful. Sorting the `advertised_pct` column across the whole board is not, because it puts two currencies in one ranking. The `symbol` column is what tells them apart.
@@ -70,23 +70,23 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 5.5922 | 3.2197 | 4.1639 | 32.5613 | 10.11x | 89.9 | -0.764 |
-| Kamino Lend USDG (Main market) | 4.2947 | 2.2035 | 2.7225 | 4.0378 | 1.83x | 100 | -0.2242 |
-| Kamino Lend PYUSD (Main market) | 4.8331 | 1.0694 | 3.8035 | 9.0069 | 8.42x | 84.4 | -0.1178 |
-| Kamino Lend USDT (Main market) | 5.6833 | 2.2113 | 3.7545 | 17.4433 | 7.89x | 97.2 | -0.0071 |
-| Kamino Lend USDS (Main market) | 5.4752 | 2.4898 | 3.9956 | 4.425 | 1.78x | 100 | 0.2699 |
-| Save USDC (Main pool) | 2.66 | 2.26 | 2.52 | 2.68 | 1.19x | 94.8 | -0.0989 |
-| Save USDT (Main pool) | 1.68 | 1.34 | 1.43 | 1.75 | 1.31x | 82.8 | -0.1701 |
-| Jupiter Lend Earn USDC | 5.8016 | 3.4583 | 4.4457 | 5.8016 | 1.68x | 96.6 | -0.7028 |
-| Jupiter Lend Earn JupUSD | 4.6862 | 3.8314 | 4.2892 | 5.0427 | 1.32x | 79.3 | -1.2422 |
-| Jupiter Lend Earn USDT | 4.6757 | 3.1175 | 3.5307 | 5.4636 | 1.75x | 93.1 | -0.2689 |
-| Jupiter Lend Earn USDS | 4.3413 | 3.2619 | 3.5204 | 5.5903 | 1.71x | 79.3 | -0.6881 |
-| Jupiter Lend Earn USDG | 4.9272 | 3.3446 | 4.5816 | 5.8969 | 1.76x | 65.5 | -0.2984 |
-| Jupiter Lend Earn EURC | 3.4169 | 2.86 | 3.3136 | 5.0322 | 1.76x | 55.2 | -0.3276 |
+| Kamino Lend USDC (Main market) | 5.7529 | 3.2197 | 4.164 | 32.5613 | 10.11x | 90.5 | -0.7475 |
+| Kamino Lend USDG (Main market) | 4.8809 | 2.2035 | 2.7435 | 4.0378 | 1.83x | 100 | -0.2188 |
+| Kamino Lend PYUSD (Main market) | 5.1829 | 1.0694 | 3.7498 | 9.0069 | 8.42x | 94.7 | -0.1597 |
+| Kamino Lend USDT (Main market) | 5.1577 | 2.2113 | 3.7247 | 17.4433 | 7.89x | 97.2 | -0.0205 |
+| Kamino Lend USDS (Main market) | 5.4262 | 2.4898 | 3.9946 | 4.4041 | 1.77x | 100 | 0.2928 |
+| Save USDC (Main pool) | 2.71 | 2.26 | 2.52 | 2.71 | 1.2x | 98.3 | -0.1209 |
+| Save USDT (Main pool) | 1.71 | 1.34 | 1.435 | 1.75 | 1.31x | 93.3 | -0.1835 |
+| Jupiter Lend Earn USDC | 4.6862 | 3.4583 | 4.4927 | 5.8016 | 1.68x | 60 | -0.6832 |
+| Jupiter Lend Earn JupUSD | 4.9797 | 3.8314 | 4.2996 | 5.0427 | 1.32x | 96.7 | -1.2485 |
+| Jupiter Lend Earn USDT | 4.3205 | 3.1175 | 3.5359 | 5.4636 | 1.75x | 86.7 | -0.2743 |
+| Jupiter Lend Earn USDS | 4.613 | 3.2619 | 3.5307 | 5.5903 | 1.71x | 83.3 | -0.6847 |
+| Jupiter Lend Earn USDG | 4.2996 | 3.3446 | 4.5764 | 5.8969 | 1.76x | 10 | -0.2993 |
+| Jupiter Lend Earn EURC | 3.6861 | 2.86 | 3.3601 | 5.0322 | 1.76x | 70 | -0.2743 |
 
 Widest range in this snapshot: kamino-lend-usdc, whose advertised figure ran from 3.22 percent to 32.56 percent over the window, a factor of 10.11.
 
-**11 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdc, kamino-lend-usdg, kamino-lend-pyusd, kamino-lend-usdt, kamino-lend-usds, save-usdc, save-usdt, jupiter-lend-usdc, jupiter-lend-jupusd, jupiter-lend-usdt, jupiter-lend-usds). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
+**11 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdc, kamino-lend-usdg, kamino-lend-pyusd, kamino-lend-usdt, kamino-lend-usds, save-usdc, save-usdt, jupiter-lend-jupusd, jupiter-lend-usdt, jupiter-lend-usds, jupiter-lend-usdg). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
 
 `gap_vs_median_pct` is the same subtraction done against the median of the
 advertised figure's own published history rather than against one reading of it.
@@ -102,7 +102,7 @@ passage in this file.
 There is a longer version of this measurement that a protocol can commission **about itself**:
 <https://kerne.fi/disclosure-audit?src=hf-sol>
 
-The products below are picked out of **this snapshot**, closest to exact delivery first, rather than typed into this file. Today the rows landing nearest their own advertised rate are **Jupiter Lend Earn USDG** (99.04 percent of what it advertises) and **Save USDC (Main pool)** (98.45 percent of what it advertises).
+The products below are picked out of **this snapshot**, closest to exact delivery first, rather than typed into this file. Today the rows landing nearest their own advertised rate are **Jupiter Lend Earn EURC** (98.6 percent of what it advertises) and **Save USDC (Main pool)** (97.45 percent of what it advertises).
 
 **What it is:** a Disclosure Integrity Audit, 499 US dollars flat, one report inside 72 hours of
 scope confirmation, commissioned by the protocol being reviewed and delivered privately to it. It
