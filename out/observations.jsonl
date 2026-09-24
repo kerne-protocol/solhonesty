@@ -428,3 +428,11 @@
 {"key":"jupiter-lend-usds","timestampSeconds":1790165952,"pricePerShare":1.0648394195077977,"advertisedPct":3.706870960252018,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
 {"key":"jupiter-lend-usdg","timestampSeconds":1790165952,"pricePerShare":1.071020963648745,"advertisedPct":4.216227316958832,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
 {"key":"jupiter-lend-eurc","timestampSeconds":1790165952,"pricePerShare":1.044894823285971,"advertisedPct":4.132897009231495,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"save-usdc","timestampSeconds":1790252373,"pricePerShare":1.308394797411323,"advertisedPct":2.99,"slot":"450026864","source":"onchain:save-reserve"}
+{"key":"save-usdt","timestampSeconds":1790252373,"pricePerShare":1.3388965571436737,"advertisedPct":1.75,"slot":"450026864","source":"onchain:save-reserve"}
+{"key":"jupiter-lend-usdc","timestampSeconds":1790252373,"pricePerShare":1.061329309132998,"advertisedPct":4.4039637328056935,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"jupiter-lend-jupusd","timestampSeconds":1790252373,"pricePerShare":1.0382700286439852,"advertisedPct":5.49528558090544,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"jupiter-lend-usdt","timestampSeconds":1790252373,"pricePerShare":1.0508620913589692,"advertisedPct":4.174553853830032,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"jupiter-lend-usds","timestampSeconds":1790252373,"pricePerShare":1.064938012593825,"advertisedPct":3.7587321525174966,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"jupiter-lend-usdg","timestampSeconds":1790252373,"pricePerShare":1.0711394738147548,"advertisedPct":1.9792804452550827,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
+{"key":"jupiter-lend-eurc","timestampSeconds":1790252373,"pricePerShare":1.045004061935799,"advertisedPct":3.4789886456210617,"slot":null,"source":"issuer:jupiter-lend-earn-tokens"}
