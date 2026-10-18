@@ -26,28 +26,28 @@ configs:
 What each Solana stablecoin product **says** it pays, next to what it **actually
 paid**, measured from a share price rather than from a claim.
 
-Snapshot generated 2026-10-17T11:12:57.612Z. Window 30 days.
+Snapshot generated 2026-10-18T11:46:31.526Z. Window 30 days.
 13 products across 3 protocols,
 13 comparable, 0 published but not
 comparable. Realized figures: 5 by issuer_share_price_history, 2 by onchain_share_price, 6 by issuer_share_price_observed.
 
 | product | advertised | realized | gap | delivered | realized method |
 | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 4.3961 | 5.5485 | -1.1524 | 126.21 | issuer_share_price_history |
-| Kamino Lend USDG (Main market) | 4.6632 | 4.665 | -0.0018 | 100.04 | issuer_share_price_history |
-| Kamino Lend PYUSD (Main market) | 5.4597 | 4.9723 | 0.4874 | 91.07 | issuer_share_price_history |
-| Kamino Lend USDT (Main market) | 4.6681 | 4.1748 | 0.4933 | 89.43 | issuer_share_price_history |
-| Kamino Lend USDS (Main market) | 4.7105 | 3.9308 | 0.7797 | 83.45 | issuer_share_price_history |
-| Save USDC (Main pool) | 3.82 | 3.4745 | 0.3455 | 90.95 | onchain_share_price |
-| Save USDT (Main pool) | 2.9 | 2.1667 | 0.7333 | 74.72 | onchain_share_price |
-| Jupiter Lend Earn USDC | 6.7686 | 5.3449 | 1.4238 | 78.97 | issuer_share_price_observed |
-| Jupiter Lend Earn JupUSD | 5.5164 | 5.6817 | -0.1653 | 103 | issuer_share_price_observed |
-| Jupiter Lend Earn USDT | 4.4666 | 4.1141 | 0.3526 | 92.11 | issuer_share_price_observed |
-| Jupiter Lend Earn USDS | 5.8863 | 4.6423 | 1.244 | 78.87 | issuer_share_price_observed |
-| Jupiter Lend Earn USDG | 5.274 | 5.327 | -0.053 | 101.01 | issuer_share_price_observed |
-| Jupiter Lend Earn EURC | 4.3727 | 3.3888 | 0.9838 | 77.5 | issuer_share_price_observed |
+| Kamino Lend USDC (Main market) | 4.3584 | 5.575 | -1.2167 | 127.92 | issuer_share_price_history |
+| Kamino Lend USDG (Main market) | 4.7642 | 4.6899 | 0.0743 | 98.44 | issuer_share_price_history |
+| Kamino Lend PYUSD (Main market) | 5.3563 | 5.0796 | 0.2768 | 94.83 | issuer_share_price_history |
+| Kamino Lend USDT (Main market) | 4.5177 | 4.2714 | 0.2463 | 94.55 | issuer_share_price_history |
+| Kamino Lend USDS (Main market) | 4.7109 | 3.9844 | 0.7265 | 84.58 | issuer_share_price_history |
+| Save USDC (Main pool) | 3.89 | 3.4989 | 0.3911 | 89.95 | onchain_share_price |
+| Save USDT (Main pool) | 2.99 | 2.2401 | 0.7499 | 74.92 | onchain_share_price |
+| Jupiter Lend Earn USDC | 5.8439 | 5.4263 | 0.4177 | 92.85 | issuer_share_price_observed |
+| Jupiter Lend Earn JupUSD | 5.4847 | 5.7772 | -0.2924 | 105.33 | issuer_share_price_observed |
+| Jupiter Lend Earn USDT | 4.2058 | 4.1592 | 0.0466 | 98.89 | issuer_share_price_observed |
+| Jupiter Lend Earn USDS | 4.8328 | 4.7007 | 0.1321 | 97.27 | issuer_share_price_observed |
+| Jupiter Lend Earn USDG | 5.3161 | 5.3464 | -0.0303 | 100.57 | issuer_share_price_observed |
+| Jupiter Lend Earn EURC | 3.6136 | 3.4024 | 0.2112 | 94.16 | issuer_share_price_observed |
 
-Widest gap among rows this board can rank: jupiter-lend-eurc, at 0.31 percent against the median of its own advertised history.
+Widest gap among rows this board can rank: jupiter-lend-eurc, at 0.28 percent against the median of its own advertised history.
 
 
 **Not every row on this board is denominated in dollars.** Jupiter Lend Earn EURC (EURC). Each such row is internally consistent, because its advertised and realized figures are both measured in its own unit, so its `gap_pct` is meaningful. Sorting the `advertised_pct` column across the whole board is not, because it puts two currencies in one ranking. The `symbol` column is what tells them apart.
@@ -70,23 +70,23 @@ distribution its spot reading was drawn from:
 
 | product | advertised now | advertised min | median | max | range | spot percentile | gap vs median |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kamino Lend USDC (Main market) | 4.3961 | 3.8001 | 4.9621 | 14.4827 | 3.81x | 17.1 | -0.5864 |
-| Kamino Lend USDG (Main market) | 4.6632 | 3.5847 | 4.1702 | 13.6793 | 3.82x | 77.1 | -0.4948 |
-| Kamino Lend PYUSD (Main market) | 5.4597 | 1.9877 | 4.2651 | 10.1782 | 5.12x | 60 | -0.7072 |
-| Kamino Lend USDT (Main market) | 4.6681 | 2.9492 | 3.8323 | 6.5541 | 2.22x | 82.9 | -0.3425 |
-| Kamino Lend USDS (Main market) | 4.7105 | 3.1926 | 3.694 | 5.3487 | 1.68x | 88.6 | -0.2368 |
-| Save USDC (Main pool) | 3.82 | 2.26 | 2.88 | 3.82 | 1.69x | 99.3 | -0.5945 |
-| Save USDT (Main pool) | 2.9 | 1.34 | 1.755 | 2.9 | 2.16x | 99.3 | -0.4117 |
-| Jupiter Lend Earn USDC | 6.7686 | 3.169 | 4.3987 | 9.1649 | 2.89x | 96.1 | -0.9462 |
-| Jupiter Lend Earn JupUSD | 5.5164 | 3.5204 | 4.4248 | 9.0667 | 2.58x | 94.7 | -1.2569 |
-| Jupiter Lend Earn USDT | 4.4666 | 3.1175 | 3.8833 | 5.4636 | 1.75x | 89.5 | -0.2308 |
-| Jupiter Lend Earn USDS | 5.8863 | 3.1175 | 3.8262 | 5.8863 | 1.89x | 100 | -0.8161 |
-| Jupiter Lend Earn USDG | 5.274 | 0.5616 | 4.5764 | 51.2956 | 91.34x | 78.9 | -0.7506 |
-| Jupiter Lend Earn EURC | 4.3727 | 2.1834 | 3.7017 | 5.0322 | 2.3x | 86.8 | 0.3129 |
+| Kamino Lend USDC (Main market) | 4.3584 | 3.9334 | 4.9621 | 14.4827 | 3.68x | 11.4 | -0.6129 |
+| Kamino Lend USDG (Main market) | 4.7642 | 3.5847 | 4.1753 | 13.6793 | 3.82x | 88.6 | -0.5146 |
+| Kamino Lend PYUSD (Main market) | 5.3563 | 2.4918 | 4.4193 | 10.1782 | 4.08x | 57.1 | -0.6603 |
+| Kamino Lend USDT (Main market) | 4.5177 | 2.9492 | 4.022 | 6.5541 | 2.22x | 68.6 | -0.2494 |
+| Kamino Lend USDS (Main market) | 4.7109 | 3.1926 | 3.9069 | 5.3487 | 1.68x | 88.6 | -0.0775 |
+| Save USDC (Main pool) | 3.89 | 2.26 | 2.89 | 3.89 | 1.72x | 99.4 | -0.6089 |
+| Save USDT (Main pool) | 2.99 | 1.34 | 1.76 | 2.99 | 2.23x | 99.4 | -0.4801 |
+| Jupiter Lend Earn USDC | 5.8439 | 3.169 | 4.404 | 9.1649 | 2.89x | 94.8 | -1.0223 |
+| Jupiter Lend Earn JupUSD | 5.4847 | 3.5204 | 4.4248 | 9.0667 | 2.58x | 88.3 | -1.3524 |
+| Jupiter Lend Earn USDT | 4.2058 | 3.1175 | 3.8833 | 5.4636 | 1.75x | 75.3 | -0.2759 |
+| Jupiter Lend Earn USDS | 4.8328 | 3.1175 | 3.8833 | 5.8863 | 1.89x | 77.9 | -0.8174 |
+| Jupiter Lend Earn USDG | 5.3161 | 0.5616 | 4.5816 | 51.2956 | 91.34x | 81.8 | -0.7648 |
+| Jupiter Lend Earn EURC | 3.6136 | 2.1834 | 3.6861 | 5.0322 | 2.3x | 46.8 | 0.2837 |
 
 Widest range in this snapshot: jupiter-lend-usdg, whose advertised figure ran from 0.56 percent to 51.30 percent over the window, a factor of 91.34.
 
-**12 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdc, kamino-lend-usdg, kamino-lend-usdt, kamino-lend-usds, save-usdc, save-usdt, jupiter-lend-usdc, jupiter-lend-jupusd, jupiter-lend-usdt, jupiter-lend-usds, jupiter-lend-usdg, jupiter-lend-eurc). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
+**10 row(s) in this snapshot were captured outside the middle half of their own recent range** (kamino-lend-usdc, kamino-lend-usdg, kamino-lend-usds, save-usdc, save-usdt, jupiter-lend-usdc, jupiter-lend-jupusd, jupiter-lend-usdt, jupiter-lend-usds, jupiter-lend-usdg). For those rows, prefer `gap_vs_median_pct` over `gap_pct`.
 
 `gap_vs_median_pct` is the same subtraction done against the median of the
 advertised figure's own published history rather than against one reading of it.
@@ -102,7 +102,7 @@ passage in this file.
 There is a longer version of this measurement that a protocol can commission **about itself**:
 <https://kerne.fi/disclosure-audit?src=hf-sol>
 
-The products below are picked out of **this snapshot**, closest to exact delivery first, rather than typed into this file. Today the rows landing nearest their own advertised rate are **Kamino Lend USDG (Main market)** (100.04 percent of what it advertises) and **Jupiter Lend Earn USDG** (101.01 percent of what it advertises).
+The products below are picked out of **this snapshot**, closest to exact delivery first, rather than typed into this file. Today the rows landing nearest their own advertised rate are **Jupiter Lend Earn USDG** (100.57 percent of what it advertises) and **Jupiter Lend Earn USDT** (98.89 percent of what it advertises).
 
 **What it is:** a Disclosure Integrity Audit, 499 US dollars flat, one report inside 72 hours of
 scope confirmation, commissioned by the protocol being reviewed and delivered privately to it. It
